@@ -27,5 +27,5 @@ jobs:
           GITHUB_USERNAME: "Sue-52"
           PUBLISH_REPO: https://${{ secrets.PAT }}@github.com/Sue-52/Blog-StudyNotes.git
           PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: ./dist
+          PUBLISH_DIR: ./public
           DEPLOY_PRIVATE_KEY: ${{ secrets.ACCESS_TOKEN }}
