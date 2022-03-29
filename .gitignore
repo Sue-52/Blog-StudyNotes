@@ -1,5 +1,3 @@
-node_modules/
-yarn-error.log
-/public
-/dist
-.idea/
+.vuepress/.cache
+.vuepress/.temp
+node_modules
