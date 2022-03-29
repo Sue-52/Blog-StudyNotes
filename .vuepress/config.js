@@ -1,10 +1,10 @@
 const sidebar = require("./sidebar.js");
 module.exports = {
   // 网站标题
-  title: "刘謀的博客",
+  title: "八云家的记事簿",
   description: "莫愁前路无知己,天下谁人不识君",
   dest: "dist", // 打包路径
-  base: "/Mou_Blog/",
+  base: "/Blog-StudyNotes/",
   head: [
     [
       "link",
@@ -115,40 +115,40 @@ module.exports = {
         link: "/",
         icon: "reco-home",
       },
-      {
-        text: "时间线",
-        link: "/timeline/",
-        icon: "reco-date",
-      },
-      {
-        text: "分类",
-        icon: "reco-message",
-        items: [
-          {
-            text: "框架",
-            link: "/docs/框架/",
-          },
-          {
-            text: "前端基本",
-            link: "/docs/前端基本/",
-          },
-          {
-            text: "数据库",
-            link: "/docs/数据库/",
-          },
-        ],
-      },
-      {
-        text: "关于我",
-        icon: "reco-message",
-        items: [
-          {
-            text: "GitHub",
-            link: "https://github.com/liuzhiyan5",
-            icon: "reco-github",
-          },
-        ],
-      },
+      // {
+      //   text: "时间线",
+      //   link: "/timeline/",
+      //   icon: "reco-date",
+      // },
+      // {
+      //   text: "分类",
+      //   icon: "reco-message",
+      //   items: [
+      //     {
+      //       text: "框架",
+      //       link: "/docs/框架/",
+      //     },
+      //     {
+      //       text: "前端基本",
+      //       link: "/docs/前端基本/",
+      //     },
+      //     {
+      //       text: "数据库",
+      //       link: "/docs/数据库/",
+      //     },
+      //   ],
+      // },
+      // {
+      //   text: "关于我",
+      //   icon: "reco-message",
+      //   items: [
+      //     {
+      //       text: "GitHub",
+      //       link: "https://github.com/liuzhiyan5",
+      //       icon: "reco-github",
+      //     },
+      //   ],
+      // },
     ],
     // 侧边栏
     sidebar: sidebar,
