@@ -1,4 +1,4 @@
 ---
-title: 数据库
+title: typescript
 date: 2021-10-15
 ---

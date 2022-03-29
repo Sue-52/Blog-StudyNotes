@@ -1,4 +1,4 @@
 ---
-title: 数据库
+title: MySql
 date: 2021-10-15
 ---
