@@ -20,7 +20,6 @@ export const series = {
       children: [
         "/docs/01.Front-endBasicKnowledge/01.HTML/",
         "/docs/01.Front-endBasicKnowledge/01.HTML/01.HTML Introduce",
-        "/docs/01.Front-endBasicKnowledge/01.HTML/01.HTML Introduce copy",
       ]
     }
   ],
