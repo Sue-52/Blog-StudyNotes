@@ -21,12 +21,10 @@ export const series = {
       children: [""]
     },
     {
-      text: "Vue3 学习",
-    },
-    {
       text: "React 学习",
       children: [
-        "/docs/02.Front-endFrameKnowledge/02.React/"
+        "/docs/02.Front-endFrameKnowledge/02.React/",
+        "/docs/02.Front-endFrameKnowledge/02.React/01.React Basic"
       ]
     }
   ]
