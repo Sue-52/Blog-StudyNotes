@@ -1,15 +1,5 @@
 // 左侧目录栏
 export const series = {
-  '/docs/theme-reco/': [
-    {
-      text: 'module one',
-      children: ['home', 'theme']
-    },
-    {
-      text: 'module two',
-      children: ['api', 'plugin']
-    }
-  ],
   "/docs/01.Front-endBasicKnowledge/": [
     {
       text: "基本介绍",
@@ -25,4 +15,19 @@ export const series = {
       ]
     }
   ],
+  "/docs/02.Front-endFrameKnowledge/": [
+    {
+      text: "框架基本介绍",
+      children: [""]
+    },
+    {
+      text: "Vue3 学习",
+    },
+    {
+      text: "React 学习",
+      children: [
+        "/docs/02.Front-endFrameKnowledge/02.React/"
+      ]
+    }
+  ]
 }
