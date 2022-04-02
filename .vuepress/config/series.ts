@@ -24,7 +24,8 @@ export const series = {
       text: "React 学习",
       children: [
         "/docs/02.Front-endFrameKnowledge/02.React/",
-        "/docs/02.Front-endFrameKnowledge/02.React/01.React Basic"
+        "/docs/02.Front-endFrameKnowledge/02.React/01.React Basic",
+        "/docs/02.Front-endFrameKnowledge/02.React/02.React Component"
       ]
     }
   ]
