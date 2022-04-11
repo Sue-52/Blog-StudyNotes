@@ -26,7 +26,8 @@ export const series = {
         "/docs/02.Front-endFrameKnowledge/02.React/",
         "/docs/02.Front-endFrameKnowledge/02.React/01.React Basic",
         "/docs/02.Front-endFrameKnowledge/02.React/02.React Component",
-        "/docs/02.Front-endFrameKnowledge/02.React/03.React Development Basic"
+        "/docs/02.Front-endFrameKnowledge/02.React/03.React Development Basic",
+        "/docs/02.Front-endFrameKnowledge/02.React/04.React Development Advanced"
       ]
     }
   ]
