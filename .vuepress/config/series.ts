@@ -29,7 +29,10 @@ export const series = {
         "/docs/02.Front-endFrameKnowledge/02.React/03.React Development Basic",
         "/docs/02.Front-endFrameKnowledge/02.React/04.React Development Advanced",
         "/docs/02.Front-endFrameKnowledge/02.React/05.React State Control",
-        "/docs/02.Front-endFrameKnowledge/02.React/06.React Router"
+        "/docs/02.Front-endFrameKnowledge/02.React/06.React Router",
+        "/docs/02.Front-endFrameKnowledge/02.React/07.React SSR",
+        "/docs/02.Front-endFrameKnowledge/02.React/08.React TypeScript",
+        "/docs/02.Front-endFrameKnowledge/02.React/09.React Populer Tools"
       ]
     }
   ]
