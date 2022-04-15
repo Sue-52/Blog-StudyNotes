@@ -32,7 +32,9 @@ export const series = {
         "/docs/02.Front-endFrameKnowledge/02.React/06.React Router",
         "/docs/02.Front-endFrameKnowledge/02.React/07.React SSR",
         "/docs/02.Front-endFrameKnowledge/02.React/08.React TypeScript",
-        "/docs/02.Front-endFrameKnowledge/02.React/09.React Populer Tools"
+        "/docs/02.Front-endFrameKnowledge/02.React/09.React Populer Tools",
+        "/docs/02.Front-endFrameKnowledge/02.React/10.React Immutable data",
+        "/docs/02.Front-endFrameKnowledge/02.React/11.React Appendix"
       ]
     }
   ]
