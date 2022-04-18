@@ -43,5 +43,14 @@ export const series = {
         "/docs/02.Front-endFrameKnowledge/02.React/11.React Appendix"
       ]
     }
+  ],
+  "/blogs/01.Front-End Interview Question": [
+    {
+      Text: "前端面试题复习",
+      children: [
+        "",
+        "day01-Review",
+      ]
+    }
   ]
 }

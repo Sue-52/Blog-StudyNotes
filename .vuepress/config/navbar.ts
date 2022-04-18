@@ -6,6 +6,7 @@ export const navbar = [
     icon: 'Notebook',
     children: [
       { text: '前端基础', link: '/docs/01.Front-endBasicKnowledge/' },
+      { text: '前端框架', link: '/docs/02.Front-endFrameKnowledge/' },
     ]
   },
   {
@@ -26,7 +27,7 @@ export const navbar = [
     text: '部分文档',
     icon: 'Book',
     children: [
-      { text: 'vuepress-reco', link: '/docs/theme-reco/theme' },
+      { text: '前端面试题 ①', link: '/blogs/01.Front-End Interview Question/' },
     ]
   },
 ]
