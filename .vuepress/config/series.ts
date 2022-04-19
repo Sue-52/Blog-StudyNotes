@@ -44,12 +44,22 @@ export const series = {
       ]
     }
   ],
-  "/blogs/01.Front-End Interview Question": [
+  "/blogs/01.Front-End Interview Question/": [
     {
       Text: "前端面试题复习",
       children: [
         "",
         "day01-Review",
+        "day02-Review",
+      ]
+    },
+  ],
+  "/blogs/00.daily sentences/": [
+    {
+      Text: "每日一句",
+      children: [
+        "",
+        "sentence"
       ]
     }
   ]
