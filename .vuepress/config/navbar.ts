@@ -28,6 +28,7 @@ export const navbar = [
     icon: 'Book',
     children: [
       { text: '前端面试题 ①', link: '/blogs/01.Front-End Interview Question/' },
+      { text: 'Leetcode', link: '/blogs/02.Leetcode/' },
     ]
   },
 ]

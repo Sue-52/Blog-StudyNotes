@@ -62,5 +62,15 @@ export const series = {
         "sentence"
       ]
     }
+  ],
+  "/blogs/02.Leetcode/": [
+    {
+      Text: "Leetcode",
+      children: [
+        "",
+        "00.Mathematical Character",
+        "/blogs/02.Leetcode/02.Leetcode Questions/day01-problems/01.Leetcode-Two Sum"
+      ]
+    }
   ]
 }
