@@ -63,7 +63,7 @@ export const series = {
       ]
     }
   ],
-  // 力扣题
+  // 力扣题、算法
   "/blogs/02.Leetcode/": [
     {
       Text: "Leetcode",
