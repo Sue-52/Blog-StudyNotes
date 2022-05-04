@@ -59,7 +59,8 @@ export const series = {
       Text: "每日一句",
       children: [
         "",
-        "sentence"
+        "sentence",
+        // "shortSentences"
       ]
     }
   ],
