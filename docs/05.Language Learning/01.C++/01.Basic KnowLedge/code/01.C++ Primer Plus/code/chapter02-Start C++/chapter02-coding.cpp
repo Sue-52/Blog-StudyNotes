@@ -1,36 +1,36 @@
-#include <iostream>
-void printTime(int,int);
+ï»¿#include <iostream>
+void printTime(int, int);
 
 using namespace std;
 
 int main()
 {
-	// ÓÃ»§ÊäÈëÐ¡Ê±ÊýºÍ·ÖÖÓÊý
-	// Êä³ö£º
+	// ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡Ê±ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ï¿½
 	/*
-		Enter the number of hours£º9
-		Enter the number of minutes£º28
-		Time£º9:28
+		Enter the number of hoursï¿½ï¿½9
+		Enter the number of minutesï¿½ï¿½28
+		Timeï¿½ï¿½9:28
 	*/
 
-	// 1. ´´½¨±äÁ¿
+	// 1. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	int hour;
 	int minute;
 
-	// 2.´´½¨·½·¨
-	cout << "Please input the hour£º";
+	// 2.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	cout << "Please input the hourï¿½ï¿½";
 	cin >> hour;
-	cout << "Please input the minute£º";
+	cout << "Please input the minuteï¿½ï¿½";
 	cin >> minute;
-	// 3.µ÷ÓÃº¯Êý
+	// 3.ï¿½ï¿½ï¿½Ãºï¿½ï¿½ï¿½
 	printTime(hour, minute);
 
 	return 0;
 }
 
-void printTime(int hours,int minutes)
+void printTime(int hours, int minutes)
 {
-	cout << "Enter the number of hours£º" << hours << endl;
-	cout << "Enter the number of minutes£º" << minutes << endl;
-	cout << "Time£º" << hours << ":" << minutes << endl;
+	cout << "Enter the number of hoursï¿½ï¿½" << hours << endl;
+	cout << "Enter the number of minutesï¿½ï¿½" << minutes << endl;
+	cout << "Timeï¿½ï¿½" << hours << ":" << minutes << endl;
 }
