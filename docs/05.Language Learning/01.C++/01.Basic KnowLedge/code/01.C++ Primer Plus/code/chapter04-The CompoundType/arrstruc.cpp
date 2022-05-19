@@ -5,6 +5,7 @@ struct inflatable
 	char name[20];
 	float volume;
 	double price;
+	// 只能由 int、long、double 类型
 	union id {
 		long id_int;
 		double id_dou;
