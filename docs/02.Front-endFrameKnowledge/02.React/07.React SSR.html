@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="generator" content="VuePress 2.0.0-beta.33">
+    <script>
+      const userMode = localStorage.getItem('vuepress-reco-color-scheme');
+      const systemDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+      if (userMode === 'dark' || (typeof userMode !== 'string' && systemDarkMode)) {
+        document.documentElement.classList.toggle('dark', true);
+      }
+    </script>
+    <title>React SSR -- React 服务端渲染 | 八云家的记事簿</title><meta name="description" content="用于记录自身学习笔记、常用工具、实用的网页等">
+    <link rel="preload" href="/Blog-StudyNotes/assets/js/runtime~app.a27b0316.js" as="script"><link rel="preload" href="/Blog-StudyNotes/assets/css/styles.a442bfb3.css" as="style"><link rel="preload" href="/Blog-StudyNotes/assets/js/3769.75743e32.js" as="script"><link rel="preload" href="/Blog-StudyNotes/assets/js/app.fbc5ca59.js" as="script">
+    <link rel="stylesheet" href="/Blog-StudyNotes/assets/css/styles.a442bfb3.css">
+  </head>
+  <body>
+    <div id="app"><!--[--><div class="theme-container"><div class="common-wrapper show-page-headers"><header class="navbar-container"><div class="toggle-sidebar-button" aria-expanded="false" role="button" tabindex="0"><div class="icon" aria-hidden="true"><span></span><span></span><span></span></div></div><span class="site-brand"><a href="/Blog-StudyNotes/" class=""><img class="logo" src="/Blog-StudyNotes/logo.png" alt="八云家的记事簿"><span class="site-name can-hide">八云家的记事簿</span></a></span><div class="navbar-links-wrapper" style=""><form class="search-box" role="search"><input type="search" autocomplete="off" spellcheck="false" value><!----></form><nav class="navbar-links"><!--[--><div class="navbar-links-item"><a href="/Blog-StudyNotes/" class="nav-link" aria-label="首页"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H3l9-9l9 9h-2"></path><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"></path><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->首页<!--]--></span></a><!--[--><!--]--></a></div><div class="navbar-links-item"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="学习分类"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1m3 0v18"></path><path d="M13 8h2"></path><path d="M13 12h2"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->学习分类<!--]--></span></a><!----></button><button class="mobile-dropdown-title" type="button" aria-label="学习分类"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1m3 0v18"></path><path d="M13 8h2"></path><path d="M13 12h2"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->学习分类<!--]--></span></a><!----></button><!--[--><ul style="display:none;" class="nav-dropdown"><!--[--><li class="dropdown-item"><a href="/Blog-StudyNotes/docs/01.Front-endBasicKnowledge/" class="nav-link" aria-label="前端基础"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->前端基础<!--]--></span></a><!--[--><!--]--></a></li><li class="dropdown-item"><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/" class="nav-link router-link-active" aria-label="前端框架"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->前端框架<!--]--></span></a><!--[--><!--]--></a></li><!--]--></ul><!--]--></div></div><div class="navbar-links-item"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="常用工具"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><path d="M7 10h3V7L6.5 3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1-3 3l-6-6a6 6 0 0 1-8-8L7 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="color:inherit;font-size:14px;"><!--[-->常用工具<!--]--></span></a><!----></button><button class="mobile-dropdown-title" type="button" aria-label="常用工具"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><path d="M7 10h3V7L6.5 3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1-3 3l-6-6a6 6 0 0 1-8-8L7 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="color:inherit;font-size:14px;"><!--[-->常用工具<!--]--></span></a><!----></button><!--[--><ul style="display:none;" class="nav-dropdown"><!--[--><li class="dropdown-item"><a href="/Blog-StudyNotes/docs/01.Front-endBasicKnowledge/" class="nav-link" aria-label="前端基础"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->前端基础<!--]--></span></a><!--[--><!--]--></a></li><!--]--></ul><!--]--></div></div><div class="navbar-links-item"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="资源分享"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h11a2 2 0 0 1 2 2v.5a.5.5 0 0 0 .5.5a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5a.5.5 0 0 0-.5.5v.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2"></path><path d="M7 10v4"></path><path d="M10 10v4"></path><path d="M13 10v4"></path><path d="M16 10v4"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->资源分享<!--]--></span></a><!----></button><button class="mobile-dropdown-title" type="button" aria-label="资源分享"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h11a2 2 0 0 1 2 2v.5a.5.5 0 0 0 .5.5a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5a.5.5 0 0 0-.5.5v.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2"></path><path d="M7 10v4"></path><path d="M10 10v4"></path><path d="M13 10v4"></path><path d="M16 10v4"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->资源分享<!--]--></span></a><!----></button><!--[--><ul style="display:none;" class="nav-dropdown"><!--[--><li class="dropdown-item"><a href="/Blog-StudyNotes/docs/01.Front-endBasicKnowledge/" class="nav-link" aria-label="前端基础"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->前端基础<!--]--></span></a><!--[--><!--]--></a></li><!--]--></ul><!--]--></div></div><div class="navbar-links-item"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="部分文档"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path><path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path><path d="M3 6v13"></path><path d="M12 6v13"></path><path d="M21 6v13"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->部分文档<!--]--></span></a><!----></button><button class="mobile-dropdown-title" type="button" aria-label="部分文档"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path><path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path><path d="M3 6v13"></path><path d="M12 6v13"></path><path d="M21 6v13"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->部分文档<!--]--></span></a><!----></button><!--[--><ul style="display:none;" class="nav-dropdown"><!--[--><li class="dropdown-item"><a href="/Blog-StudyNotes/blogs/01.Front-End Interview Question/" class="nav-link" aria-label="前端面试题 ①"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->前端面试题 ①<!--]--></span></a><!--[--><!--]--></a></li><li class="dropdown-item"><a href="/Blog-StudyNotes/blogs/02.Leetcode/" class="nav-link" aria-label="Leetcode"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->Leetcode<!--]--></span></a><!--[--><!--]--></a></li><!--]--></ul><!--]--></div></div><!--]--></nav><a class="icon-container left btn-toggle-dark-mode" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3h.393a7.5 7.5 0 0 0 7.92 12.446A9 9 0 1 1 12 2.992z"></path><path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0-2 2a2 2 0 0 0-2-2a2 2 0 0 0 2-2"></path><path d="M19 11h2m-1-1v2"></path></g></svg><!----></a></div></header><div class="sidebar-mask"></div><aside class="series-container"><nav class="navbar-links"><!--[--><div class="navbar-links-item"><a href="/Blog-StudyNotes/" class="nav-link" aria-label="首页"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H3l9-9l9 9h-2"></path><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"></path><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->首页<!--]--></span></a><!--[--><!--]--></a></div><div class="navbar-links-item"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="学习分类"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1m3 0v18"></path><path d="M13 8h2"></path><path d="M13 12h2"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->学习分类<!--]--></span></a><!----></button><button class="mobile-dropdown-title" type="button" aria-label="学习分类"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1m3 0v18"></path><path d="M13 8h2"></path><path d="M13 12h2"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->学习分类<!--]--></span></a><!----></button><!--[--><ul style="display:none;" class="nav-dropdown"><!--[--><li class="dropdown-item"><a href="/Blog-StudyNotes/docs/01.Front-endBasicKnowledge/" class="nav-link" aria-label="前端基础"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->前端基础<!--]--></span></a><!--[--><!--]--></a></li><li class="dropdown-item"><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/" class="nav-link router-link-active" aria-label="前端框架"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->前端框架<!--]--></span></a><!--[--><!--]--></a></li><!--]--></ul><!--]--></div></div><div class="navbar-links-item"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="常用工具"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><path d="M7 10h3V7L6.5 3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1-3 3l-6-6a6 6 0 0 1-8-8L7 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="color:inherit;font-size:14px;"><!--[-->常用工具<!--]--></span></a><!----></button><button class="mobile-dropdown-title" type="button" aria-label="常用工具"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><path d="M7 10h3V7L6.5 3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1-3 3l-6-6a6 6 0 0 1-8-8L7 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="color:inherit;font-size:14px;"><!--[-->常用工具<!--]--></span></a><!----></button><!--[--><ul style="display:none;" class="nav-dropdown"><!--[--><li class="dropdown-item"><a href="/Blog-StudyNotes/docs/01.Front-endBasicKnowledge/" class="nav-link" aria-label="前端基础"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->前端基础<!--]--></span></a><!--[--><!--]--></a></li><!--]--></ul><!--]--></div></div><div class="navbar-links-item"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="资源分享"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h11a2 2 0 0 1 2 2v.5a.5.5 0 0 0 .5.5a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5a.5.5 0 0 0-.5.5v.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2"></path><path d="M7 10v4"></path><path d="M10 10v4"></path><path d="M13 10v4"></path><path d="M16 10v4"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->资源分享<!--]--></span></a><!----></button><button class="mobile-dropdown-title" type="button" aria-label="资源分享"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h11a2 2 0 0 1 2 2v.5a.5.5 0 0 0 .5.5a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5a.5.5 0 0 0-.5.5v.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2"></path><path d="M7 10v4"></path><path d="M10 10v4"></path><path d="M13 10v4"></path><path d="M16 10v4"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->资源分享<!--]--></span></a><!----></button><!--[--><ul style="display:none;" class="nav-dropdown"><!--[--><li class="dropdown-item"><a href="/Blog-StudyNotes/docs/01.Front-endBasicKnowledge/" class="nav-link" aria-label="前端基础"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->前端基础<!--]--></span></a><!--[--><!--]--></a></li><!--]--></ul><!--]--></div></div><div class="navbar-links-item"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="部分文档"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path><path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path><path d="M3 6v13"></path><path d="M12 6v13"></path><path d="M21 6v13"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->部分文档<!--]--></span></a><!----></button><button class="mobile-dropdown-title" type="button" aria-label="部分文档"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path><path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path><path d="M3 6v13"></path><path d="M12 6v13"></path><path d="M21 6v13"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->部分文档<!--]--></span></a><!----></button><!--[--><ul style="display:none;" class="nav-dropdown"><!--[--><li class="dropdown-item"><a href="/Blog-StudyNotes/blogs/01.Front-End Interview Question/" class="nav-link" aria-label="前端面试题 ①"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->前端面试题 ①<!--]--></span></a><!--[--><!--]--></a></li><li class="dropdown-item"><a href="/Blog-StudyNotes/blogs/02.Leetcode/" class="nav-link" aria-label="Leetcode"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->Leetcode<!--]--></span></a><!--[--><!--]--></a></li><!--]--></ul><!--]--></div></div><!--]--></nav><!--[--><!--[--><section class="series-group series-item"><h5 class="series-heading active">框架基本介绍</h5><ul><li><!--[--><a aria-current="page" href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/07.React SSR.html" class="router-link-active router-link-exact-active nav-link router-link-active series-item active" aria-label="React SSR -- React 服务端渲染"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React SSR -- React 服务端渲染<!--]--></span></a><!--[--><!--]--></a><!--]--></li></ul></section><!--]--><!--[--><section class="series-group series-item"><h5 class="series-heading">Vue3 学习</h5><ul><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/01.Vue3/" class="nav-link series-item" aria-label="Vue3 总介绍"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->Vue3 总介绍<!--]--></span></a><!--[--><!--]--></a><!--]--></li></ul></section><!--]--><!--[--><section class="series-group series-item"><h5 class="series-heading active">React 学习</h5><ul><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/" class="nav-link router-link-active series-item" aria-label="React 总介绍"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React 总介绍<!--]--></span></a><!--[--><!--]--></a><!--]--></li><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/01.React Basic.html" class="nav-link series-item" aria-label="React Basic - 入门知识"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React Basic - 入门知识<!--]--></span></a><!--[--><!--]--></a><!--]--></li><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/02.React Component.html" class="nav-link series-item" aria-label="React Component -- 组件基础知识"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React Component -- 组件基础知识<!--]--></span></a><!--[--><!--]--></a><!--]--></li><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/03.React Development Basic.html" class="nav-link series-item" aria-label="React Development Basic -- 组件开发基础"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React Development Basic -- 组件开发基础<!--]--></span></a><!--[--><!--]--></a><!--]--></li><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/04.React Development Advanced.html" class="nav-link series-item" aria-label="React Development Advanced -- 组件开发进阶"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React Development Advanced -- 组件开发进阶<!--]--></span></a><!--[--><!--]--></a><!--]--></li><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/05.React State Control.html" class="nav-link series-item" aria-label="React State Control -- React 全局状态管理"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React State Control -- React 全局状态管理<!--]--></span></a><!--[--><!--]--></a><!--]--></li><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/06.React Router.html" class="nav-link series-item" aria-label="React Router -- React 路由管理"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React Router -- React 路由管理<!--]--></span></a><!--[--><!--]--></a><!--]--></li><li><!--[--><a aria-current="page" href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/07.React SSR.html" class="router-link-active router-link-exact-active nav-link router-link-active series-item active" aria-label="React SSR -- React 服务端渲染"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React SSR -- React 服务端渲染<!--]--></span></a><!--[--><!--]--></a><!--]--></li><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/08.React TypeScript.html" class="nav-link series-item" aria-label="React TypeScript -- React 使用 TypeScript 开发"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React TypeScript -- React 使用 TypeScript 开发<!--]--></span></a><!--[--><!--]--></a><!--]--></li><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/09.React Populer Tools.html" class="nav-link series-item" aria-label="React Populer Tools -- React 流行库"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React Populer Tools -- React 流行库<!--]--></span></a><!--[--><!--]--></a><!--]--></li><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/10.React Immutable data.html" class="nav-link series-item" aria-label="React Immutable data -- React 不可变数据结构"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React Immutable data -- React 不可变数据结构<!--]--></span></a><!--[--><!--]--></a><!--]--></li><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/11.React Appendix.html" class="nav-link series-item" aria-label="React Appendix -- React 附录"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React Appendix -- React 附录<!--]--></span></a><!--[--><!--]--></a><!--]--></li></ul></section><!--]--><!--]--></aside><!--[--><main class="page-container show-sidebar show-page-headers"><h1 class="page-title">React SSR -- React 服务端渲染</h1><div class="page-info"><a class="icon-container left" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:18px;height:18px;font-size:18px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"></circle><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->Sue-52<!--]--></span></a><a class="icon-container left" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:18px;height:18px;font-size:18px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 3"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->2022-04-11 16:10:00<!--]--></span></a><a class="icon-container left" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:18px;height:18px;font-size:18px;"><path d="M5 4h4l3 3h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="color:inherit;font-size:14px;"><!--[--><!--[--><a href="/Blog-StudyNotes/categories/React/1/" class="category">React</a><!--]--><!--]--></span></a><a class="icon-container left" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:18px;height:18px;font-size:18px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="8.5" r="1" fill="currentColor"></circle><path d="M4 7v3.859c0 .537.213 1.052.593 1.432l8.116 8.116a2.025 2.025 0 0 0 2.864 0l4.834-4.834a2.025 2.025 0 0 0 0-2.864L12.29 4.593A2.025 2.025 0 0 0 10.859 4H7a3 3 0 0 0-3 3z"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[--><!--[--><a href="/Blog-StudyNotes/tags/React/1/" class="tag">React</a><!--]--><!--]--></span></a><a class="icon-container left" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:18px;height:18px;font-size:18px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"></circle><path d="M22 12c-2.667 4.667-6 7-10 7s-7.333-2.333-10-7c2.667-4.667 6-7 10-7s7.333 2.333 10 7"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[--><span id="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/07.React SSR.html" class="leancloud-visitors" data-flag-title="Your Article Title"><a class="leancloud-visitors-count" style=""></a></span><!--]--></span></a></div><div class="theme-reco-default-content"><!--[--><h2 id="react-ssr-react-服务端渲染" tabindex="-1"><a class="header-anchor" href="#react-ssr-react-服务端渲染" aria-hidden="true">#</a> React SSR -- React 服务端渲染</h2><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/01.png" alt="01"></p><h3 id="_1-概述" tabindex="-1"><a class="header-anchor" href="#_1-概述" aria-hidden="true">#</a> 1. 概述</h3><h4 id="_1-1-渲染概述" tabindex="-1"><a class="header-anchor" href="#_1-1-渲染概述" aria-hidden="true">#</a> 1.1 渲染概述</h4><h5 id="_1-服务端渲染-ssr" tabindex="-1"><a class="header-anchor" href="#_1-服务端渲染-ssr" aria-hidden="true">#</a> 1. 服务端渲染 SSR</h5><p>服务端渲染 ( server-side rendering ) 是指数据和 HTML 模板在服务端进行拼接，完成拼接后再发送到客户端进行解析。</p><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/02.png" alt="02"></p><h5 id="_2-客户端渲染-csr" tabindex="-1"><a class="header-anchor" href="#_2-客户端渲染-csr" aria-hidden="true">#</a> 2. 客户端渲染 CSR</h5><p>客户端渲染 ( client-side rendering ) 是指数据和 HTML 模板在客户端浏览器中进行拼接，拼接完成后再追加到 DOM 树中供浏览器解析。</p><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/03.png" alt="03"></p><h5 id="_3-静态生成-ssg" tabindex="-1"><a class="header-anchor" href="#_3-静态生成-ssg" aria-hidden="true">#</a> 3. 静态生成 SSG</h5><p>静态站点生成 ( static stie generation ) 是指在站点构建阶段进行数据和HTML模板的拼接并生成对应的静态的 HTML 页面。</p><h4 id="_1-2-渲染发展史" tabindex="-1"><a class="header-anchor" href="#_1-2-渲染发展史" aria-hidden="true">#</a> 1.2 渲染发展史</h4><h5 id="_1-传统意义上的服务器端渲染" tabindex="-1"><a class="header-anchor" href="#_1-传统意义上的服务器端渲染" aria-hidden="true">#</a> 1. 传统意义上的服务器端渲染</h5><p>传统意义上的服务器端渲染存在的问题主要是用户体验差：</p><ol><li>在网速比较慢的情况下，页面长时间处于白屏状态，用于等待时易产生焦虑。</li><li>每次页面跳转都会重新加载整个页面体验差。</li></ol><h5 id="_2-基于前端框架的客端户渲染" tabindex="-1"><a class="header-anchor" href="#_2-基于前端框架的客端户渲染" aria-hidden="true">#</a> 2. 基于前端框架的客端户渲染</h5><p>基于前端框架的客户端渲染虽然解决了传统服务端渲染用户体验差的问题，但也随之带来了新的问题：</p><p>客户端渲染不支持 SEO，导致页面很难被搜索引擎收录。</p><h5 id="_3-基于前端框架的服务端渲染" tabindex="-1"><a class="header-anchor" href="#_3-基于前端框架的服务端渲染" aria-hidden="true">#</a> 3. 基于前端框架的服务端渲染</h5><p>基于前端框架的服务端渲染解决了用户体验差的问题，也解决了 SEO 支持不友好的问题。</p><p>缺点是数据和HTML模板在服务端进行渲染，访问速度还是会受一些影响，而且服务端只能使用 JavaScript 运行时。</p><h5 id="_4-基于静态生成的服务端渲染" tabindex="-1"><a class="header-anchor" href="#_4-基于静态生成的服务端渲染" aria-hidden="true">#</a> 4. 基于静态生成的服务端渲染</h5><p>基于静态生成的服务端渲染在访问速度上是最具有优势的，也不存在 SEO 支持不友好的问题。</p><p>但是它只适用于页面内容不会发生频繁变化的场景，比如企宣，商城，博客，新闻等。</p><h3 id="_2-next-js" tabindex="-1"><a class="header-anchor" href="#_2-next-js" aria-hidden="true">#</a> 2. Next.js</h3><h4 id="_2-1-概述" tabindex="-1"><a class="header-anchor" href="#_2-1-概述" aria-hidden="true">#</a> 2.1 概述</h4><p><a href="https://nextjs.org/" target="_blank" rel="noopener noreferrer">Next.js<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><!----></span></a> 是集成式 React 服务端渲染应用框架，用于构建 SEO 友好的 SPA 应用。</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 全局安装 next.js 脚手架工具</span>
+<span class="token function">npm</span> <span class="token function">install</span> -g create-next-app
+<span class="token comment"># 创建 next.js 应用</span>
+create-next-app next-tutorial
+<span class="token comment"># 启动开发服务器</span>
+<span class="token function">npm</span> run dev
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h4 id="_2-2-基于文件系统的路由" tabindex="-1"><a class="header-anchor" href="#_2-2-基于文件系统的路由" aria-hidden="true">#</a> 2.2 基于文件系统的路由</h4><h5 id="_1-路由匹配" tabindex="-1"><a class="header-anchor" href="#_1-路由匹配" aria-hidden="true">#</a> 1. 路由匹配</h5><p>在 Next.js 中，页面是存储在 pages 文件中的 React 组件，组件文件名称与路由相关联。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// pages/index.js ====&gt; http://localhost:3000/
+export default function Home() {
+  return &lt;div&gt;首页&lt;/div&gt;;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// pages/about.js ====&gt; http://localhost:3000/about
+export default function About() {
+  return &lt;div&gt;关于我们&lt;/div&gt;;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// pages/post/index.js ====&gt; http://localhost:3000/post
+export default function Post() {
+  return &lt;div&gt;这是博客索引目录&lt;/div&gt;;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// pages/blog/first-blog.js ====&gt; http://localhost:3000/blog/first-post
+export default function FirstPost () {
+  return &lt;div&gt;这是我的第一篇博客文章&lt;/div&gt;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// pages/post/[pid].js ====&gt; http://localhost:3000/post/1
+import { useRouter } from &quot;next/router&quot;;
+
+export default function Post() {
+  const router = useRouter(); // router.query ====&gt; {&quot;pid&quot;: &quot;1&quot;}
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// pages/post/[pid].js ====&gt; http://localhost:3000/post/1?name=zhangsan&amp;age=20
+import { useRouter } from &quot;next/router&quot;;
+
+export default function Post() {
+  const router = useRouter(); // routter.query ====&gt; {&quot;pid&quot;: &quot;1&quot;, &quot;name&quot;: &quot;张三&quot;}
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// pages/order/[uid]/[status].js ====&gt; http://localhost:3000/order/2/all
+import { useRouter } from &quot;next/router&quot;;
+
+export default function Orders() {
+  const router = useRouter(); // router.query ====&gt; {&quot;uid&quot;: &quot;2&quot;, &quot;status&quot;: &quot;all&quot;}
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// pages/404.js ====&gt; 自定义404页面
+export default function NotFound() {
+  return &lt;div&gt;这是自定义的404页面&lt;/div&gt;;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h5 id="_2-路由跳转" tabindex="-1"><a class="header-anchor" href="#_2-路由跳转" aria-hidden="true">#</a> 2. 路由跳转</h5><p>Link 组件默认进行客户端路由跳转，如果浏览器中 JavaScript 被禁用则使用链接进行服务端路由跳转。</p><p>Link 组件中不应添加除 href 属性以外的属性，其余属性添加到 a 标签上，比如 title、onClick。</p><p>Link 组件通过预取(在生产中)功能自动优化应用程序以获得最佳性能。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import Link from &quot;next/link&quot;;
+
+export default function Home() {
+  return (
+    &lt;Link href=&quot;/about&quot;&gt;
+      &lt;a title=&quot;关于我们&quot;&gt;&lt;/a&gt;
+    &lt;/Link&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import Link from &quot;next/link&quot;;
+
+const posts = [
+  { id: 1, title: &quot;这是id为1的文章&quot; },
+  { id: 2, title: &quot;这是id为2的文章&quot; },
+];
+
+export default function Post() {
+  return (
+    &lt;ul&gt;
+      {posts.map((post) =&gt; (
+        &lt;li key={post.id}&gt;
+          &lt;Link href={`/post/${post.id}`}&gt;
+            &lt;a&gt;{post.title}&lt;/a&gt;
+          &lt;/Link&gt;
+        &lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import Link from &quot;next/link&quot;;
+
+const posts = [
+  { id: 1, title: &quot;这是id为1的文章&quot; },
+  { id: 2, title: &quot;这是id为2的文章&quot; },
+];
+
+export default function Post() {
+  return (
+    &lt;ul&gt;
+      {posts.map((post) =&gt; (
+        &lt;li key={post.id}&gt;
+          &lt;Link href={{ pathname: &quot;/post/[pid]&quot;, query: { pid: post.id } }}&gt;
+            &lt;a&gt;{post.title}&lt;/a&gt;
+          &lt;/Link&gt;
+        &lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import { useRouter } from &quot;next/router&quot;;
+
+export default function Home() {
+  const router = useRouter();
+  return &lt;button onClick={() =&gt; router.push(&quot;/about&quot;)}&gt;关于我们&lt;/button&gt;;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import Link from &quot;next/link&quot;;
+
+export default function Home() {
+  const onClickHandler = (event) =&gt; {
+    alert(&quot;clicked&quot;);
+    event.preventDefault();
+  };
+  return (
+    &lt;Link href=&quot;/about&quot;&gt;
+      &lt;a onClick={onClickHandler}&gt;关于我们&lt;/a&gt;
+    &lt;/Link&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><h4 id="_2-3-api-路由" tabindex="-1"><a class="header-anchor" href="#_2-3-api-路由" aria-hidden="true">#</a> 2.3 API 路由</h4><p>通过 API 路由开发者可以为<strong>客户端</strong>应用提供 API 接口。</p><p>API 路由是服务端应用程序，代码将会被打包到服务端应用程序，它不会增加客户端打包文件的体积。</p><h5 id="_1-基本使用" tabindex="-1"><a class="header-anchor" href="#_1-基本使用" aria-hidden="true">#</a> 1. 基本使用</h5><div class="language-javascript ext-js line-numbers-mode"><pre class="language-javascript"><code><span class="token comment">// pages/api/index.js ====&gt; http://localhost:3000/api</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">handler</span><span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// req: 请求对象</span>
+  <span class="token comment">// res: 响应对象</span>
+  <span class="token comment">// 对客户端进行响应</span>
+  res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">msg</span><span class="token operator">:</span> <span class="token string">&quot;API Route is running&quot;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><div class="language-javascript ext-js line-numbers-mode"><pre class="language-javascript"><code><span class="token comment">// pages/api/posts/index.js</span>
+<span class="token comment">// 获取文章列表: GET  http://localhost:3000/api/posts</span>
+<span class="token comment">// 添加文章:    POST  http://localhost:3000/api/posts</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">handler</span><span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">switch</span> <span class="token punctuation">(</span>req<span class="token punctuation">.</span>method<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> <span class="token string">&quot;GET&quot;</span><span class="token operator">:</span>
+      res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">msg</span><span class="token operator">:</span> <span class="token string">&quot;客户端在获取文章列表&quot;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token keyword">case</span> <span class="token string">&quot;POST&quot;</span><span class="token operator">:</span>
+      res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">msg</span><span class="token operator">:</span> <span class="token string">&quot;客户端在添加文章&quot;</span><span class="token punctuation">,</span> <span class="token literal-property property">body</span><span class="token operator">:</span> req<span class="token punctuation">.</span>body <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token keyword">default</span><span class="token operator">:</span>
+      res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">400</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token literal-property property">msg</span><span class="token operator">:</span> <span class="token string">&quot;API 不存在&quot;</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><div class="language-javascript ext-js line-numbers-mode"><pre class="language-javascript"><code><span class="token comment">// pages/api/posts/[pid].js</span>
+<span class="token comment">// 根据pid获取文章: GET     http://localhost:3000/api/post/12</span>
+<span class="token comment">// 根据pid删除文章: DELETE  http://localhost:3000/api/post/12</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">handler</span><span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">switch</span> <span class="token punctuation">(</span>req<span class="token punctuation">.</span>method<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> <span class="token string">&quot;GET&quot;</span><span class="token operator">:</span>
+      res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">msg</span><span class="token operator">:</span> <span class="token string">&quot;客户端在根据pid获取文章&quot;</span><span class="token punctuation">,</span> <span class="token literal-property property">pid</span><span class="token operator">:</span> req<span class="token punctuation">.</span>query<span class="token punctuation">.</span>pid <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token keyword">case</span> <span class="token string">&quot;DELETE&quot;</span><span class="token operator">:</span>
+      res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">msg</span><span class="token operator">:</span> <span class="token string">&quot;客户端在根据pid删除文章&quot;</span><span class="token punctuation">,</span> <span class="token literal-property property">pid</span><span class="token operator">:</span> req<span class="token punctuation">.</span>query<span class="token punctuation">.</span>pid <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">break</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><div class="language-javascript ext-js line-numbers-mode"><pre class="language-javascript"><code><span class="token comment">// pages/api/posts/[...pids].js </span>
+<span class="token comment">// 根据pid批量删除文章: DELETE http://localhost:3000/api/posts/2/3</span>
+<span class="token comment">// [pid].js 的匹配优先级高于 [...pid].js</span>
+<span class="token comment">// req.query.pids =&gt; {pids: [2,3]}</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">handler</span><span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">switch</span> <span class="token punctuation">(</span>req<span class="token punctuation">.</span>method<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> <span class="token string">&quot;DELETE&quot;</span><span class="token operator">:</span>
+      res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">msg</span><span class="token operator">:</span> <span class="token string">&quot;客户端在根据pid批量删除文章&quot;</span><span class="token punctuation">,</span> <span class="token literal-property property">pid</span><span class="token operator">:</span> req<span class="token punctuation">.</span>query<span class="token punctuation">.</span>pids <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><h5 id="_2-连接数据库" tabindex="-1"><a class="header-anchor" href="#_2-连接数据库" aria-hidden="true">#</a> 2. 连接数据库</h5><div class="language-javascript ext-js line-numbers-mode"><pre class="language-javascript"><code><span class="token comment">// services/dbConnection.js</span>
+<span class="token keyword">import</span> mongoose <span class="token keyword">from</span> <span class="token string">&quot;mongoose&quot;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">dbConnect</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 判断数据库是否已经连接过, 如果已经连接过, 不再重复连接</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>mongoose<span class="token punctuation">.</span>connection<span class="token punctuation">.</span>readyState <span class="token operator">===</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span>
+  <span class="token comment">// 如果数据库没有连接过, 链接数据库</span>
+  <span class="token keyword">await</span> mongoose<span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token string">&quot;mongodb://localhost:27017/test&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> dbConnect<span class="token punctuation">;</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><div class="language-javascript ext-js line-numbers-mode"><pre class="language-javascript"><code><span class="token comment">// models/Post.js</span>
+<span class="token keyword">import</span> mongoose <span class="token keyword">from</span> <span class="token string">&quot;mongoose&quot;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> PostSchema <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">mongoose<span class="token punctuation">.</span>Schema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token literal-property property">title</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">type</span><span class="token operator">:</span> String<span class="token punctuation">,</span>
+    <span class="token literal-property property">required</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token string">&quot;标题不能为空&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">unique</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">maxlength</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">40</span><span class="token punctuation">,</span> <span class="token string">&quot;标题不能超过40个字符&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">description</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">type</span><span class="token operator">:</span> String<span class="token punctuation">,</span>
+    <span class="token literal-property property">required</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">maxlength</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token string">&quot;描述不能超过200个字符&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// posts</span>
+<span class="token keyword">const</span> Post <span class="token operator">=</span> mongoose<span class="token punctuation">.</span>models<span class="token punctuation">.</span>Post <span class="token operator">||</span> mongoose<span class="token punctuation">.</span><span class="token function">model</span><span class="token punctuation">(</span><span class="token string">&quot;Post&quot;</span><span class="token punctuation">,</span> PostSchema<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> Post<span class="token punctuation">;</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div><div class="language-javascript ext-js line-numbers-mode"><pre class="language-javascript"><code><span class="token comment">// pages/api/posts/index.js</span>
+<span class="token keyword">import</span> Post <span class="token keyword">from</span> <span class="token string">&quot;@/models/Post&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> dbConnect <span class="token keyword">from</span> <span class="token string">&quot;@/services/dbConnection&quot;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">handler</span><span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">await</span> <span class="token function">dbConnect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">switch</span> <span class="token punctuation">(</span>req<span class="token punctuation">.</span>method<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> <span class="token string">&quot;GET&quot;</span><span class="token operator">:</span>
+      <span class="token keyword">const</span> posts <span class="token operator">=</span> <span class="token keyword">await</span> Post<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">success</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> posts <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token keyword">case</span> <span class="token string">&quot;POST&quot;</span><span class="token operator">:</span>
+      <span class="token keyword">const</span> post <span class="token operator">=</span> <span class="token keyword">await</span> Post<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>req<span class="token punctuation">.</span>body<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">201</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">success</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> post <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token keyword">default</span><span class="token operator">:</span>
+      res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">400</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">success</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token literal-property property">error</span><span class="token operator">:</span> <span class="token string">&quot;api 不存在&quot;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div><div class="language-json ext-json line-numbers-mode"><pre class="language-json"><code><span class="token comment">// jsconfig.json</span>
+<span class="token punctuation">{</span>
+  <span class="token property">&quot;compilerOptions&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">&quot;baseUrl&quot;</span><span class="token operator">:</span> <span class="token string">&quot;.&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;paths&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token property">&quot;@/models/*&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&quot;models/*&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;@/services/*&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&quot;services/*&quot;</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><h4 id="_2-4-静态生成" tabindex="-1"><a class="header-anchor" href="#_2-4-静态生成" aria-hidden="true">#</a> 2.4 静态生成</h4><p>静态生成是指在构建阶段对应用程序进行编译，编译结果就是静态的 HTML 文件。</p><p>当客户端向服务端发送请求后，服务端直接将应用构建时编译的 HTML 文件发送到客户端。</p><p>默认情况下，如果组件不通过请求获取外部数据，Next.js 会在构建阶段将其编译为静态 HTML 文件。</p><p>预渲染适用于页面内容不会发生频繁变化的场景，比如博客、新闻、电商前台、文档、营销页面等。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>export default function About() {
+  return &lt;div&gt;About&lt;/div&gt;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h5 id="_1-基于页面组件的静态生成" tabindex="-1"><a class="header-anchor" href="#_1-基于页面组件的静态生成" aria-hidden="true">#</a> 1. 基于页面组件的静态生成</h5><p>在构建阶段如果组件需要获取外部数据，在组件中要导出名为 getStaticProps 的异步方法，通过它返回组件所需数据，它会在应用的构建阶段执行。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import axios from &quot;axios&quot;;
+
+export default function Posts({ posts }) {
+  return (
+    &lt;ul&gt;
+      {posts.map((post) =&gt; (
+        &lt;li key={post.id}&gt;{post.title}&lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+
+export async function getStaticProps() {
+  let { data } = await axios.get(&quot;https://jsonplaceholder.typicode.com/posts&quot;);
+  return {
+    props: {
+      posts: data,
+    },
+  };
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div><h5 id="_2-基于动态路由的静态生成" tabindex="-1"><a class="header-anchor" href="#_2-基于动态路由的静态生成" aria-hidden="true">#</a> 2. 基于动态路由的静态生成</h5><p>基于动态路由的静态生成是指根据路由动态参数编译 HTML 静态文件。</p><p>该路由拥有多少参数就会编译出多少静态 HTML 文件。</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">npm</span> <span class="token function">install</span> -g json-server
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><div class="language-json ext-json line-numbers-mode"><pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">&quot;todos&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> <span class="token property">&quot;id&quot;</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token property">&quot;title&quot;</span><span class="token operator">:</span> <span class="token string">&quot;吃饭&quot;</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> <span class="token property">&quot;id&quot;</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token property">&quot;title&quot;</span><span class="token operator">:</span> <span class="token string">&quot;睡觉&quot;</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> <span class="token property">&quot;id&quot;</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token property">&quot;title&quot;</span><span class="token operator">:</span> <span class="token string">&quot;打豆豆&quot;</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code>json-server db.json -p <span class="token number">3001</span> -w
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// pages/todos/[id].js
+import axios from &quot;axios&quot;;
+import { useRouter } from &quot;next/router&quot;;
+
+export default function Todo({ todo }) {
+  const router = useRouter();
+  if (router.isFallback) return &lt;div&gt;Loading...&lt;/div&gt;;
+  return (
+    &lt;div&gt;
+      {todo.id} {todo.title}
+    &lt;/div&gt;
+  );
+}
+
+// 第一步: 在构建时先获取所有路由参数
+export async function getStaticPaths() {
+  return {
+    paths: [
+      {
+        params: { id: &quot;1&quot; },
+      },
+      {
+        params: { id: &quot;2&quot; },
+      },
+    ],
+    // false 当访问没有被预渲染的路径时展示404页面
+    // true: 当访问没有被预渲染的路径时, 先展示后备UI, Next.js 会在客户端请求时进行预渲染, 完后后显示预渲染结果
+    fallback: true,
+  };
+}
+
+// 第二步: 根据路由参数编译静态 HTML 文件
+// 在构建时 Next 先调用 getStaticPaths 方法获取所有路由参数
+// 遍历路由参数, 不断调用 getStaticProps 方法编译静态HTML文件
+export async function getStaticProps({ params }) {
+  let response = await axios.get(`http://localhost:3001/todos/${params.id}`);
+  await delay(2000);
+  return {
+    props: {
+      todo: response.data,
+    },
+    // 用于在构建站点后更新静态页面
+    // 设置当前页面缓存的过期时间
+    // 当前页面被访问时, 如果缓存时间过期, 触发当前页面的重新预渲染
+    // 当次访问用户看到的仍然是缓存页面, 当重新预渲染完成后, 下次用户访问时看到的就是新页面了
+    revalidate: 10,
+  };
+}
+
+function delay(time) {
+  return new Promise((resolve) =&gt; setTimeout(resolve, time));
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br></div></div><h4 id="_2-5-服务端渲染" tabindex="-1"><a class="header-anchor" href="#_2-5-服务端渲染" aria-hidden="true">#</a> 2.5 服务端渲染</h4><p>服务端渲染是指在客户端发送请求时，服务器端即时编译 HTML，编译完成后将 HTML 代码发送到客户端。</p><p>服务端渲染方式适用于页面内容频繁发生变化场景且需要 SEO 的场景。</p><p>getServerSideProps 方法在服务端执行，内部可以调用 API 路由，也可以直接查询数据库。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import Post from &quot;@/models/Post&quot;;
+
+export default function Posts({ posts }) {
+  return (
+    &lt;ul&gt;
+      {posts.map((post, index) =&gt; (
+        &lt;li key={index}&gt;
+          &lt;h1&gt;{post.title}&lt;/h1&gt;
+          &lt;p&gt;{post.description}&lt;/p&gt;
+        &lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+
+export async function getServerSideProps() {
+  const posts = await Post.find({});
+  return {
+    props: {
+      posts: JSON.parse(JSON.stringify(posts)),
+    },
+  };
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br></div></div><h4 id="_2-6-混合渲染" tabindex="-1"><a class="header-anchor" href="#_2-6-混合渲染" aria-hidden="true">#</a> 2.6 混合渲染</h4><p>混合渲染是指客户端渲染和服务端渲染、客户端渲染和静态生成可以混合使用。</p><p>比如文章详情页面，文章内容不会经常变化可以使用预渲染，而文章评论需要实时更新可以使用客户端渲染。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// pages/api/comments/index.js
+export default function comments(req, res) {
+  res.send([
+    { id: 1, content: &quot;评论1&quot; },
+    { id: 2, content: &quot;评论2&quot; },
+  ]);
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import axios from &quot;axios&quot;;
+import { useState, useEffect } from &quot;react&quot;;
+
+export default function Posts({ posts }) {
+  const [comments, setComments] = useState([]);
+  useEffect(() =&gt; {
+    axios.get(&quot;http://localhost:3000/api/comments&quot;).then((response) =&gt; {
+      setComments(response.data);
+    });
+  }, []);
+  return (
+    &lt;&gt;
+      {/* 静态生成部分开始 */}
+      &lt;ul&gt;
+        {posts.map((post, index) =&gt; (
+          &lt;li key={index}&gt;
+            &lt;h1&gt;{post.title}&lt;/h1&gt;
+            &lt;p&gt;{post.description}&lt;/p&gt;
+          &lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+      {/* 静态生成部分结束 */}
+      {/* 动态渲染部分开始 */}
+      &lt;ul&gt;
+        {comments.map((comment) =&gt; (
+          &lt;li key={comment.id}&gt;{comment.content}&lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+      {/* 动态渲染部分结束 */}
+    &lt;/&gt;
+  );
+}
+
+export async function getStaticProps() {
+  let response = await axios.get(&quot;http://localhost:3000/api/posts&quot;);
+  return {
+    props: {
+      posts: response.data.posts,
+    },
+  };
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br></div></div><h4 id="_2-7-为应用添加样式" tabindex="-1"><a class="header-anchor" href="#_2-7-为应用添加样式" aria-hidden="true">#</a> 2.7 为应用添加样式</h4><p>Next.js 推荐将所有样式表文件存储在 styles 目录中。</p><h5 id="_1-全局样式" tabindex="-1"><a class="header-anchor" href="#_1-全局样式" aria-hidden="true">#</a> 1. 全局样式</h5><p>全局样式表应该在 _app.js 文件中被导入。</p><p>_app.js 文件中存储的是应用程序根组件。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// pages/_app.js
+import &quot;../styles/globals.css&quot;;
+
+function MyApp({ Component, pageProps }) {
+  return &lt;Component {...pageProps} /&gt;;
+}
+
+export default MyApp;
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><h5 id="_2-组件级样式" tabindex="-1"><a class="header-anchor" href="#_2-组件级样式" aria-hidden="true">#</a> 2. 组件级样式</h5><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import styles from &#39;../styles/Home.module.css&#39;
+
+export default function Home() {
+  return &lt;div className={styles.container}&gt;&lt;/div&gt;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><h4 id="_2-8-布局组件" tabindex="-1"><a class="header-anchor" href="#_2-8-布局组件" aria-hidden="true">#</a> 2.8 布局组件</h4><h5 id="_1-情况一" tabindex="-1"><a class="header-anchor" href="#_1-情况一" aria-hidden="true">#</a> 1. 情况一</h5><p>应用中的每一个页面都有公共组件，且都是相同的公共组件，此时可以在根组件中使用布局组件。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// components/Header.js
+export default function Header() {
+  return &lt;div&gt;Header&lt;/div&gt;;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// components/Footer.js
+export default  function Footer() {
+  return &lt;div&gt;Footer&lt;/div&gt;;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// components/Layout.js
+import Footer from &quot;./Footer&quot;;
+import Header from &quot;./Header&quot;;
+
+export default function Layout({ children }) {
+  return (
+    &lt;&gt;
+      &lt;Header /&gt;
+      {children}
+      &lt;Footer /&gt;
+    &lt;/&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// pages/_app.js
+import Layout from &quot;../components/Layout&quot;;
+
+export default function MyApp({ Component, pageProps }) {
+  return (
+    &lt;Layout&gt;
+      &lt;Component {...pageProps} /&gt;
+    &lt;/Layout&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><h5 id="_2-情况二" tabindex="-1"><a class="header-anchor" href="#_2-情况二" aria-hidden="true">#</a> 2. 情况二</h5><p>应用中的页面有公共组件，但不是每一个页面都有相同的公共组件。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// pages/about.js
+import Layout from &quot;../components/Layout&quot;;
+
+export default function About() {
+  return (
+    &lt;Layout&gt;
+      &lt;div&gt;About&lt;/div&gt;
+    &lt;/Layout&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><h4 id="_2-9-head-组件" tabindex="-1"><a class="header-anchor" href="#_2-9-head-组件" aria-hidden="true">#</a> 2.9 Head 组件</h4><p>通过 Head 组件可以为不同的页面设置不同的头信息，比如标题、描述、关键字等信息。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// pages/about.js
+import Head from &quot;next/head&quot;;
+
+export default function about() {
+  return (
+    &lt;Head&gt;
+      &lt;title&gt;关于我们&lt;/title&gt;
+      &lt;meta name=&quot;description&quot; content=&quot;关于我们页面的描述内容&quot; /&gt;
+    &lt;/Head&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>每个页面中公共的头信息可以放在 _app.js 文件中。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import Head from &quot;next/head&quot;;
+
+export default function MyApp({ Component, pageProps }) {
+  return (
+    &lt;&gt;
+      &lt;Head&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+      &lt;/Head&gt;
+      &lt;Component {...pageProps} /&gt;
+    &lt;/&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><h4 id="_2-10-image-组件" tabindex="-1"><a class="header-anchor" href="#_2-10-image-组件" aria-hidden="true">#</a> 2.10 Image 组件</h4><p>使用 Image 组件加载图片可以优化图像体积、格式、图片懒加载。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import Image from &quot;next/image&quot;;
+
+export default function about() {
+  return (
+    &lt;&gt;
+      {[1, 2, 3, 4, 5].map((path) =&gt; (
+        &lt;div key={path}&gt;
+          &lt;Image alt=&quot;&quot; src={`/${path}.jpg`} width=&quot;280&quot; height=&quot;420&quot; /&gt;
+        &lt;/div&gt;
+      ))}
+    &lt;/&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><h4 id="_2-11-环境变量" tabindex="-1"><a class="header-anchor" href="#_2-11-环境变量" aria-hidden="true">#</a> 2.11 环境变量</h4><p>Next.js 内置对环境变量的支持。</p><table><thead><tr><th>文件名称</th><th>作用</th></tr></thead><tbody><tr><td>.env</td><td>放置开发环境和生产环境中的公共变量</td></tr><tr><td>.env.development</td><td>放置开发环境变量，优先级高于 .env 文件</td></tr><tr><td>.env.production</td><td>放置生产环境变量，优先级高于 .env 文件</td></tr></tbody></table><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># .env.development</span>
+<span class="token assign-left variable">API_URL</span><span class="token operator">=</span>api.development.example.com
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># .env.production</span>
+<span class="token assign-left variable">API_URL</span><span class="token operator">=</span>api.production.example.com
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><div class="language-javascript ext-js line-numbers-mode"><pre class="language-javascript"><code><span class="token comment">// 普通环境变量只在 Node.js 环境下起作用 ( API Route、getStaticProps、getServerSideProps )</span>
+process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">API_URL</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>要在浏览器中使用环境变量，需要在环境变量的名字前面加 NEXT_PUBLIC_ 前缀</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># .env.development</span>
+<span class="token assign-left variable">NEXT_PUBLIC_API_URL</span><span class="token operator">=</span>api.production.example.com
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>在存储环境变量的文件中可以使用 $ 开头的变量指向系统环境变量，它用于指向系统中存储的敏感信息</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># .env.development</span>
+<span class="token assign-left variable">SECRET_KEY</span><span class="token operator">=</span><span class="token variable">$SECRET</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># ~/.zshrc (打开该文件手动写入)</span>
+<span class="token builtin class-name">export</span> <span class="token assign-left variable">SECRET</span><span class="token operator">=</span>test
+<span class="token builtin class-name">source</span> .zshrc
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h4 id="_2-12-构建命令" tabindex="-1"><a class="header-anchor" href="#_2-12-构建命令" aria-hidden="true">#</a> 2.12 构建命令</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 构建生成环境代码 (客户端应用程序、服务器端应用程序)</span>
+next build
+<span class="token comment"># 启动用于生产的支持预渲染和服务端渲染的 node.js 服务器 (基于 next build 结果)</span>
+next start
+<span class="token comment"># 启动开发环境的 node.js 服务器</span>
+next dev
+<span class="token comment"># 将站点导出为静态HTML (基于 next build 结果)</span>
+<span class="token comment"># 不支持图片优化、api 路由</span>
+next <span class="token builtin class-name">export</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><h3 id="_3-服务器端渲染原理" tabindex="-1"><a class="header-anchor" href="#_3-服务器端渲染原理" aria-hidden="true">#</a> 3. 服务器端渲染原理</h3><p>在服务器端渲染 React 应用程序，渲染结果就是静态的HTML代码。</p><h4 id="_1-应用目录结构介绍" tabindex="-1"><a class="header-anchor" href="#_1-应用目录结构介绍" aria-hidden="true">#</a> 1. 应用目录结构介绍</h4><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code>├── build     						<span class="token comment"># 放置服务器端应用程序的打包文件</span>
+├── public    						<span class="token comment"># 服务器端设置的静态资源访问目录</span>
+├── src    							  <span class="token comment"># 源码目录</span>
+│   ├── client						<span class="token comment"># 客户端应用程序</span>
+│   ├── server             <span class="token comment"># 服务器端应用程序</span>
+│   └── shared						<span class="token comment"># 同构代码, 客户端和服务器端需要共用的代码, 比如页面组件、路由规则、Redux</span>
+├── package-lock.json      <span class="token comment"># 记录应用依赖的包的下载地址</span>
+├── package.json           <span class="token comment"># 应用工程文件</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token comment"># 根据已有项目工程文件下载项目依赖</span>
+<span class="token function">npm</span> <span class="token function">install</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h4 id="_2-创建-web-服务器" tabindex="-1"><a class="header-anchor" href="#_2-创建-web-服务器" aria-hidden="true">#</a> 2. 创建 web 服务器</h4><p>目标：使用 express 框架创建 web 服务器。</p><div class="language-javascript ext-js line-numbers-mode"><pre class="language-javascript"><code><span class="token comment">// src/server/index.js</span>
+<span class="token comment">// 导入 express 框架</span>
+<span class="token keyword">import</span> express <span class="token keyword">from</span> <span class="token string">&quot;express&quot;</span><span class="token punctuation">;</span>
+<span class="token comment">// 创建 web 服务器</span>
+<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 设置静态资源文件夹</span>
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>express<span class="token punctuation">.</span><span class="token function">static</span><span class="token punctuation">(</span><span class="token string">&quot;public&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 监听端口</span>
+app<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">3000</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;服务器启动成功, 监听3000端口&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><h4 id="_3-服务器端渲染应用首页" tabindex="-1"><a class="header-anchor" href="#_3-服务器端渲染应用首页" aria-hidden="true">#</a> 3. 服务器端渲染应用首页</h4><p>目标：接收来自客户端的请求，在服务器端渲染首页页面组件，将渲染结果响应到客户端。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// src/shared/pages/Home.js
+import React from &quot;react&quot;;
+
+export default function Home() {
+  return &lt;div&gt;HomePage works&lt;/div&gt;;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// src/server/index.js
+import Home from &quot;../shared/pages/Home&quot;;
+import { renderToString } from &quot;react-dom/server&quot;;
+import React from &quot;react&quot;;
+
+app.get(&quot;/&quot;, (req, res) =&gt; {
+  // 通过 renderToString 方法将 React 组件转换为 HTML 字符串
+  const content = renderToString(&lt;Home /&gt;);
+  res.send(`
+    &lt;html&gt;
+      &lt;head&gt;
+        &lt;title&gt;React 服务器端渲染&lt;/title&gt;
+      &lt;/head&gt;
+      &lt;body&gt;
+        &lt;div id=&quot;root&quot;&gt;${content}&lt;/div&gt;
+      &lt;/body&gt;
+    &lt;/html&gt;
+  `);
+});
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div><h4 id="_4-服务端代码打包配置" tabindex="-1"><a class="header-anchor" href="#_4-服务端代码打包配置" aria-hidden="true">#</a> 4. 服务端代码打包配置</h4><div class="language-javascript ext-js line-numbers-mode"><pre class="language-javascript"><code><span class="token comment">// webpack.server.js</span>
+<span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;path&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> nodeExternals <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;webpack-node-externals&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">mode</span><span class="token operator">:</span> <span class="token string">&quot;development&quot;</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">entry</span><span class="token operator">:</span> <span class="token string">&quot;./src/server/index.js&quot;</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">output</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">path</span><span class="token operator">:</span> path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">&quot;build&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">filename</span><span class="token operator">:</span> <span class="token string">&quot;bundle.js&quot;</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">module</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">rules</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        <span class="token literal-property property">test</span><span class="token operator">:</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">\.js$</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span>
+        <span class="token literal-property property">exclude</span><span class="token operator">:</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">node_modules</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span>
+        <span class="token literal-property property">use</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+          <span class="token literal-property property">loader</span><span class="token operator">:</span> <span class="token string">&quot;babel-loader&quot;</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">options</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">presets</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&quot;@babel/preset-env&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;@babel/preset-react&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+          <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment">// 在使用 webpack 进行服务器端应用程序打包时，webpack 将 Node 系统模块以及 node_modules 文件夹中的模块统统进行了打包，但其实这些模块是不需要被打包的，因为程序就在 Node 环境下运行，代码运行时所有的模块都在。</span>
+  <span class="token comment">// 忽略 node_modules 文件夹中的所有模块</span>
+  <span class="token literal-property property">externals</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token function">nodeExternals</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token comment">// 忽略 Node 内置模块，比如 path、fs 等</span>
+  <span class="token literal-property property">target</span><span class="token operator">:</span> <span class="token string">&quot;node&quot;</span><span class="token punctuation">,</span>
+  <span class="token comment">// 生成打包代码与源代码之间的映射关系</span>
+  <span class="token literal-property property">devtool</span><span class="token operator">:</span> <span class="token string">&quot;source-map&quot;</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br></div></div><div class="language-json ext-json line-numbers-mode"><pre class="language-json"><code><span class="token property">&quot;scripts&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+  <span class="token property">&quot;dev:server-run&quot;</span><span class="token operator">:</span> <span class="token string">&quot;nodemon --watch build --exec node build/bundle.js&quot;</span><span class="token punctuation">,</span>
+  <span class="token comment">// 通过webpack进行打包, 打包过程所使用的配置文件是 webpack.server.js, 监听文件变化, 重新打包</span>
+  <span class="token property">&quot;dev:server-build&quot;</span><span class="token operator">:</span> <span class="token string">&quot;webpack --config webpack.server.js --watch&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><h4 id="_5-为组件附加事件" tabindex="-1"><a class="header-anchor" href="#_5-为组件附加事件" aria-hidden="true">#</a> 5. 为组件附加事件</h4><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// src/shared/pages/Home.js
+import React from &quot;react&quot;;
+
+export default function Home() {
+  return &lt;div onClick={() =&gt; alert(&quot;clicked&quot;)}&gt;HomePage works&lt;/div&gt;;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h4 id="_6-创建客户端入口文件" tabindex="-1"><a class="header-anchor" href="#_6-创建客户端入口文件" aria-hidden="true">#</a> 6. 创建客户端入口文件</h4><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// src/client/index.js
+import React from &quot;react&quot;;
+import ReactDOM from &quot;react-dom&quot;;
+import Home from &quot;../shared/pages/Home&quot;;
+
+// hydrate: 渲染组件, 和 render 不同, 如果组件DOM结构已经存在, 复用DOM结构, 提升性能, 仅为组件附加事件
+ReactDOM.hydrate(&lt;Home /&gt;, document.getElementById(&quot;root&quot;));
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><h4 id="_7-客户端代码打包配置" tabindex="-1"><a class="header-anchor" href="#_7-客户端代码打包配置" aria-hidden="true">#</a> 7. 客户端代码打包配置</h4><p>打包目标：转换 JSX 语法，转换浏览器不识别的现代 JavaScript 语法</p><p>打包位置：public 文件夹，它是服务端的静态资源文件夹</p><div class="language-javascript ext-js line-numbers-mode"><pre class="language-javascript"><code><span class="token comment">// webpack.client.js</span>
+<span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;path&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">mode</span><span class="token operator">:</span> <span class="token string">&quot;development&quot;</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">entry</span><span class="token operator">:</span> <span class="token string">&quot;./src/client/index.js&quot;</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">output</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">path</span><span class="token operator">:</span> path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">&quot;public&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">filename</span><span class="token operator">:</span> <span class="token string">&quot;bundle.js&quot;</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">module</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">rules</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        <span class="token literal-property property">test</span><span class="token operator">:</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">\.js$</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span>
+        <span class="token literal-property property">exclude</span><span class="token operator">:</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">node_modules</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span>
+        <span class="token literal-property property">use</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+          <span class="token literal-property property">loader</span><span class="token operator">:</span> <span class="token string">&quot;babel-loader&quot;</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">options</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">presets</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&quot;@babel/preset-env&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;@babel/preset-react&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+          <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment">// 生成打包代码与源代码之间的映射关系</span>
+  <span class="token literal-property property">devtool</span><span class="token operator">:</span> <span class="token string">&quot;source-map&quot;</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br></div></div><div class="language-json ext-json line-numbers-mode"><pre class="language-json"><code><span class="token property">&quot;scripts&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+  <span class="token property">&quot;dev:client-build&quot;</span><span class="token operator">:</span> <span class="token string">&quot;webpack --config webpack.client.js --watch&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h4 id="_8-加载客户端打包代码" tabindex="-1"><a class="header-anchor" href="#_8-加载客户端打包代码" aria-hidden="true">#</a> 8. 加载客户端打包代码</h4><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>app.get(&quot;/&quot;, (req, res) =&gt; {
+  const content = renderToString(&lt;Home /&gt;);
+  res.send(`
+    &lt;html&gt;
+			&lt;script src=&quot;/bundle.js&quot;&gt;&lt;/script&gt;
+    &lt;/html&gt;
+  `);
+});
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><h4 id="_9-合并-webpack-配置" tabindex="-1"><a class="header-anchor" href="#_9-合并-webpack-配置" aria-hidden="true">#</a> 9. 合并 webpack 配置</h4><div class="language-javascript ext-js line-numbers-mode"><pre class="language-javascript"><code><span class="token comment">// webpack.base.js</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 开发环境</span>
+  <span class="token literal-property property">mode</span><span class="token operator">:</span> <span class="token string">&quot;development&quot;</span><span class="token punctuation">,</span>
+  <span class="token comment">// 配置打包规则</span>
+  <span class="token literal-property property">module</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">rules</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        <span class="token literal-property property">test</span><span class="token operator">:</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">\.js$</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span>
+        <span class="token literal-property property">exclude</span><span class="token operator">:</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">node_modules</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span>
+        <span class="token literal-property property">use</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+          <span class="token literal-property property">loader</span><span class="token operator">:</span> <span class="token string">&quot;babel-loader&quot;</span><span class="token punctuation">,</span>
+          <span class="token literal-property property">options</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">presets</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&quot;@babel/preset-env&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;@babel/preset-react&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+          <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment">// 生成打包代码与源代码之间的映射关系</span>
+  <span class="token literal-property property">devtool</span><span class="token operator">:</span> <span class="token string">&quot;source-map&quot;</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br></div></div><div class="language-javascript ext-js line-numbers-mode"><pre class="language-javascript"><code><span class="token comment">// webpack.client.js</span>
+<span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;path&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token punctuation">{</span> merge <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;webpack-merge&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> baseConfig <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;./webpack.base&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> clientConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 程序打包入口</span>
+  <span class="token literal-property property">entry</span><span class="token operator">:</span> <span class="token string">&quot;./src/client/index.js&quot;</span><span class="token punctuation">,</span>
+  <span class="token comment">// 配置程序打包出口</span>
+  <span class="token literal-property property">output</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">filename</span><span class="token operator">:</span> <span class="token string">&quot;client.js&quot;</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">path</span><span class="token operator">:</span> path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">&quot;public&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token function">merge</span><span class="token punctuation">(</span>baseConfig<span class="token punctuation">,</span> clientConfig<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><div class="language-javascript ext-js line-numbers-mode"><pre class="language-javascript"><code><span class="token comment">// webpack.server.js</span>
+<span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;path&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token punctuation">{</span> merge <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;webpack-merge&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> nodeExternals <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;webpack-node-externals&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> baseConfig <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;./webpack.base&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> serverConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 程序打包入口</span>
+  <span class="token literal-property property">entry</span><span class="token operator">:</span> <span class="token string">&quot;./src/server/index.js&quot;</span><span class="token punctuation">,</span>
+  <span class="token comment">// 配置程序打包出口</span>
+  <span class="token literal-property property">output</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">filename</span><span class="token operator">:</span> <span class="token string">&quot;bundle.js&quot;</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">path</span><span class="token operator">:</span> path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">&quot;build&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment">// 为了忽略 node_modules 文件夹中的所有模块</span>
+  <span class="token literal-property property">externals</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token function">nodeExternals</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token comment">// 为了忽略 path、fs 等内置模块</span>
+  <span class="token literal-property property">target</span><span class="token operator">:</span> <span class="token string">&quot;node&quot;</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token function">merge</span><span class="token punctuation">(</span>baseConfig<span class="token punctuation">,</span> serverConfig<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br></div></div><h4 id="_10-合并应用启动命令" tabindex="-1"><a class="header-anchor" href="#_10-合并应用启动命令" aria-hidden="true">#</a> 10. 合并应用启动命令</h4><div class="language-json ext-json line-numbers-mode"><pre class="language-json"><code><span class="token property">&quot;scripts&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+  <span class="token property">&quot;dev&quot;</span><span class="token operator">:</span> <span class="token string">&quot;npm-run-all --parallel dev:*&quot;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h4 id="_11-独立渲染方法" tabindex="-1"><a class="header-anchor" href="#_11-独立渲染方法" aria-hidden="true">#</a> 11. 独立渲染方法</h4><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// src/server/render.js
+import { renderToString } from &quot;react-dom/server&quot;;
+import React from &quot;react&quot;;
+import Home from &quot;../shared/pages/Home&quot;;
+
+export default function render() {
+  const content = renderToString(&lt;Home /&gt;);
+  return `
+    &lt;html&gt;
+      &lt;head&gt;
+        &lt;title&gt;React 服务器端渲染&lt;/title&gt;
+      &lt;/head&gt;
+      &lt;body&gt;
+        &lt;div id=&quot;root&quot;&gt;${content}&lt;/div&gt;
+        &lt;script src=&quot;/bundle.js&quot;&gt;&lt;/script&gt;
+      &lt;/body&gt;
+    &lt;/html&gt;
+  `;
+};
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// src/server/index.js
+import render from &quot;./render&quot;;
+
+app.get(&quot;/&quot;, (req, res) =&gt; {
+  res.send(render());
+});
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h4 id="_12-实现服务端路由" tabindex="-1"><a class="header-anchor" href="#_12-实现服务端路由" aria-hidden="true">#</a> 12. 实现服务端路由</h4><p>第一步：创建 List 页面，目的是测试路由是否能够配置成功。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// 新增 List 页面
+// src/shared/pages/List.js
+import React from &quot;react&quot;;
+
+export default function List() {
+  return &lt;div&gt;ListPage works&lt;/div&gt;;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>第二步：创建路由规则，由于客户端和服务端使用相同的路由规则，路由规则属于同构代码，所以路由配置文件放在 shared 文件夹下。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// 创建路由规则
+// src/shared/AppRoutes.js
+import Home from &quot;./pages/Home&quot;;
+import List from &quot;./pages/List&quot;;
+import React from &quot;react&quot;;
+import { useRoutes } from &quot;react-router-dom&quot;;
+
+export const routes = [
+  {
+    path: &quot;/&quot;,
+    element: &lt;Home /&gt;,
+  },
+  {
+    path: &quot;/list&quot;,
+    element: &lt;List /&gt;,
+  },
+  {
+    path: &quot;*&quot;,
+    element: &lt;div&gt;not found&lt;/div&gt;,
+  },
+];
+
+export default function AppRoutes() {
+  return useRoutes(routes);
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br></div></div><p>第三步：配置服务端路由，StaticRouter 是专为服务端渲染准备的路由组件，它对标客户端的 BrowserRouter 组件。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import { StaticRouter } from &quot;react-router-dom/server&quot;;
+import AppRoutes from &quot;../shared/AppRoutes&quot;;
+
+export default (req) =&gt; {
+  // 根据请求地址进行路由规则匹配, 匹配到哪个页面组件就渲染哪个页面组件
+  const content = renderToString(
+    &lt;StaticRouter location={req.path}&gt;
+      &lt;AppRoutes /&gt;
+    &lt;/StaticRouter&gt;
+  );
+};
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>以上代码还不能运行，因为 react-router-dom/server 包中即包含 ES 模块还包含 MJS 模块，引入包时，在省略文件后缀的情况下，Node 会优先加载 MJS 模块，而 webpack 目前还不能识别 MJS 模块。</p><img src="C:/Users/SUe/Documents/WeChat%20Files/wxid_vaurgijoqqp622/FileStorage/File/2022-04/%E8%AE%B2%E4%B9%89/assets/images/63.png" align="left" width="35%"><p>第一种解决办法是引入包时明确指定要引入 ESModule 模块，即引包时不省略 .js 后缀。</p><div class="language-javascript ext-js line-numbers-mode"><pre class="language-javascript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> StaticRouter <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;react-router-dom/server.js&quot;</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><p>第二种办法是让 webpack 识别 MJS 模块，将 MJS 模块当做 ESModule 进行解析。</p><div class="language-javascript ext-js line-numbers-mode"><pre class="language-javascript"><code><span class="token comment">// webpack.server.js</span>
+<span class="token keyword">const</span> serverConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">resolve</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">extensions</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&quot;*&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;.mjs&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;.js&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;.json&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">module</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">rules</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        <span class="token literal-property property">test</span><span class="token operator">:</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">\.mjs$</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span>
+        <span class="token literal-property property">include</span><span class="token operator">:</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">node_modules</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span>
+        <span class="token literal-property property">type</span><span class="token operator">:</span> <span class="token string">&quot;javascript/esm&quot;</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><p>第四步：将 Node 路由接收所有 GET 请求，接收到请求以后将请求移交 React 路由进行处理。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// src/server/index.js
+// 1. 服务端 express 接收任何请求, 然后将请求转发给 React 路由进行匹配
+app.get(&quot;*&quot;, (req, res) =&gt; {
+  res.send(render(req));
+});
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p><strong>注意：查看代码运行结果时要临时禁用浏览器 JavaScript，因为此时客户端程序还没有配置路由，客户端程序运行时会直接渲染首页组件，它会覆盖服务端返回的 HTML。</strong></p><h4 id="_13-实现客户端路由" tabindex="-1"><a class="header-anchor" href="#_13-实现客户端路由" aria-hidden="true">#</a> 13. 实现客户端路由</h4><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// src/client/index.js
+import { BrowserRouter } from &quot;react-router-dom&quot;;
+import AppRoutes from &quot;../shared/AppRoutes&quot;;
+
+ReactDOM.hydrate(
+  &lt;BrowserRouter&gt;
+    &lt;AppRoutes /&gt;
+  &lt;/BrowserRouter&gt;,
+  document.getElementById(&quot;root&quot;)
+);
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import React from &quot;react&quot;;
+import { Link } from &quot;react-router-dom&quot;;
+
+export default function Home() {
+  return (
+    &lt;&gt;
+      &lt;p&gt;当前为首页&lt;/p&gt;
+      &lt;Link to=&quot;/list&quot;&gt;跳转到列表页面&lt;/Link&gt;
+    &lt;/&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import React from &quot;react&quot;;
+import { Link } from &quot;react-router-dom&quot;;
+
+export default function List() {
+  return (
+    &lt;&gt;
+      &lt;p&gt;当前为列表页&lt;/p&gt;
+      &lt;Link to=&quot;/&quot;&gt;跳转到首页&lt;/Link&gt;
+    &lt;/&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><h4 id="_14-实现客户端-redux" tabindex="-1"><a class="header-anchor" href="#_14-实现客户端-redux" aria-hidden="true">#</a> 14. 实现客户端 Redux</h4><p>客户端与服务端共用除创建 Store 对象的代码。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// src/shared/state/todo.slice.js
+import { createSlice, createAsyncThunk } from &quot;@reduxjs/toolkit&quot;;
+import axios from &quot;axios&quot;;
+
+export const loadTodos = createAsyncThunk(&quot;todos/loadTodos&quot;, () =&gt; {
+  return axios
+    .get(&quot;https://jsonplaceholder.typicode.com/todos&quot;)
+    .then((response) =&gt; response.data);
+});
+
+const { reducer: TodosReducer } = createSlice({
+  name: &quot;todos&quot;,
+  initialState: [],
+  extraReducers: {
+    [loadTodos.fulfilled](state, action) {
+      action.payload.forEach((todo) =&gt; state.push(todo));
+    },
+  },
+});
+
+export default TodosReducer;
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// src/client/store.js
+import { configureStore } from &quot;@reduxjs/toolkit&quot;;
+import TodosReducer from &quot;../shared/state/todo.slice&quot;;
+
+export default configureStore({
+  reducer: {
+    todos: TodosReducer,
+  }
+});
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// src/client/index.js
+import { Provider } from &quot;react-redux&quot;;
+import store from &quot;./store&quot;;
+
+ReactDOM.hydrate(
+  &lt;Provider store={store}&gt;
+    &lt;BrowserRouter&gt;
+      &lt;AppRoutes /&gt;
+    &lt;/BrowserRouter&gt;
+  &lt;/Provider&gt;,
+  document.getElementById(&quot;root&quot;)
+);
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// src/shared/pages/List.js
+import React, { useEffect } from &quot;react&quot;;
+import { useDispatch, useSelector } from &quot;react-redux&quot;;
+import { loadTodos } from &quot;../state/todo.slice&quot;;
+
+export default function List() {
+  const dispatch = useDispatch();
+  const todos = useSelector((state) =&gt; state.todos);
+  useEffect(() =&gt; {
+    dispatch(loadTodos());
+  }, []);
+  return (
+    &lt;ul&gt;
+      {todos.map((todo) =&gt; (
+        &lt;li key={todo.id}&gt;{todo.title}&lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div><p><strong>注意：客户端 Redux 代码必须在 List 组件中编写，而且要在首页通过客户端路由跳转到 List 页，不能直接访问 List，因为目前还没有配置服务端 Redux，如果直接访问，在服务端渲染组件，就会报错，错误信息是找不到 Store 中的数据，提示你尝试配置 Provider 组件。</strong></p><h4 id="_15-实现服务端-redux" tabindex="-1"><a class="header-anchor" href="#_15-实现服务端-redux" aria-hidden="true">#</a> 15. 实现服务端 Redux</h4><p>当服务器端接收到请求以后，先从 store 中获取组件所需要数据，数据获取完成后再使用数据渲染组件，渲染完成后再将结果响应到客户端。</p><ol><li>因为服务端并不知道当前页面需要什么数据，所以在页面组件要定义一个方法，告诉服务端它需要什么数据。</li><li>为了能够让服务端获取到在组件中定义的获取数据的方法，我们要将该方法挂载到路由规则对象中。</li><li>服务端接收到请求以后，动态创建 Store 对象，用于存储状态。</li><li>服务端通过请求路径在路由规则数组中匹配出当前要使用的路由规则对象，从而获取组件中定义的获取数据的方法。</li><li>当组件所需数据获取完成并被存储到 store 对象中以后，调用 render 方法渲染组件，此时组件就可以直接从 store 中获取状态了。</li></ol><p>第一步：在组件文件中导出 loadStateFromStore 方法，该方法在服务端调用，用于向 store 对象中填充当前组件所需要的状态。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// src/shared/pages/List.js
+import { loadTodos } from &quot;../state/todo.slice&quot;;
+
+function loadStateFromStore(store) {
+  return store.dispatch(loadTodos());
+}
+
+export default {
+  element: &lt;List /&gt;,
+  loadStateFromStore,
+};
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>第二步：重新配置组件路由规则，将 loadStateFromStore 方法挂载到组件配置对象中</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import List from &quot;./pages/List&quot;;
+
+export const routes = [
+  {
+    path: &quot;/list&quot;,
+    ...List,
+  },
+];
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>第三步：创建服务端 Store 对象，由于服务端是在接收到请求以后动态创建 Store，所以服务端创建 Store 的代码要写在一个方法中。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// src/server/store.js
+import { configureStore } from &quot;@reduxjs/toolkit&quot;;
+import TodosReducer from &quot;../shared/state/todo.slice&quot;;
+
+export default function createStore() {
+  return configureStore({
+    reducer: {
+      todos: TodosReducer,
+    },
+  });
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>第四步：服务端在接收到请求以后动态创建 store，调用组件中的 loadStateFromStore 方法获取组件状态，组件状态获取完成后再渲染组件</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import createStore from &quot;./store&quot;;
+import { matchRoutes } from &quot;react-router-dom&quot;;
+import { routes } from &quot;../shared/AppRoutes&quot;;
+
+app.get(&quot;*&quot;, (req, res) =&gt; {
+  // 创建 store 对象
+  const store = createStore();
+  // matchRoutes 方法用于在路由规则数组中匹配出当前要使用的规则
+  // matchRoutes 方法的返回值是数组类型, 即使匹配到一个路由, 如果匹配不到返回 null
+  const matchedRoutes = matchRoutes(routes, req.path);
+  // 如果匹配到了路由规则
+  if (Array.isArray(matchedRoutes)) {
+    // 从路由规则中获取 loadStateFromStore 方法, 使用该方法获取组件需要的状态
+    // 由于获取组件状态可能涉及异步操作, 所以该方法要求返回 Promise
+    // 在 loadStateFromStore 方法中调用的 dispatch 方法正好返回 Promise, 所以在该方法中只需要返回 dispatch 方法的返回值即可
+    // 此处我们将返回的所有 Promsie 放到一个数组中, 方便监听所有异步操作完成
+    const loadDataArray = matchedRoutes.map(
+      ({ route }) =&gt; route.loadStateFromStore &amp;&amp; route.loadStateFromStore(store)
+    );
+    // 监听所有异步操作完成的状态
+    // 所以异步操作完成就代表 Store 中已经存储了我们需要的数据了
+    Promise.all(loadDataArray).then(() =&gt; {
+      // 当 store 中有需要的数据以后再渲染组件
+      res.send(render(req, store));
+    });
+  }
+});
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br></div></div><p>第五步：在服务端配置 Provider 组件</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import { renderToString } from &quot;react-dom/server&quot;;
+import { StaticRouter } from &quot;react-router-dom/server&quot;;
+import React from &quot;react&quot;;
+import { Provider } from &quot;react-redux&quot;;
+import AppRoutes from &quot;../shared/AppRoutes&quot;;
+
+export default (req, store) =&gt; {
+  const content = renderToString(
+    &lt;Provider store={store}&gt;
+      &lt;StaticRouter location={req.url}&gt;
+        &lt;AppRoutes /&gt;
+      &lt;/StaticRouter&gt;
+    &lt;/Provider&gt;
+  );
+};
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><h4 id="_16-服务端数据回填客户端" tabindex="-1"><a class="header-anchor" href="#_16-服务端数据回填客户端" aria-hidden="true">#</a> 16. 服务端数据回填客户端</h4><p>警告原因：客户端 Store 在初始状态下是没有数据的，在渲染组件的时候生成的是空 ul，但是服务器端是先获取数据再进行的组件渲染，所以生成的是有子元素的ul，hydrate 方法在对比的时候发现两者不一致所以报了个警告。</p><img src="C:/Users/SUe/Documents/WeChat%20Files/wxid_vaurgijoqqp622/FileStorage/File/2022-04/%E8%AE%B2%E4%B9%89/assets/images/52.png" align="left" width="60%"><p>解决思路：将服务器端获取到的数据回填给客户端, 让客户端拥有初始数据。而且服务端已经获取了一次数据，客户端没有必要再次获取。</p><p>第一步：将组件状态挂载到 window 对象中</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// src/server/render.js
+export default (req, store) =&gt; {
+  // 获取初始状态
+  const initialState = JSON.stringify(store.getState());
+  return `
+    &lt;html&gt;
+			&lt;script&gt;window.initialState = ${initialState}&lt;/script&gt;
+			&lt;script src=&quot;/bundle.js&quot;&gt;&lt;/script&gt;
+    &lt;/html&gt;
+  `;
+};
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>第二步：客户端设置初始状态</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>export default configureStore({
+  preloadedState: {
+    todos: window.initialState.todos,
+  },
+});
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>第三步：在组件中判断如果初始数据不存在再进行初始数据的获取</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function List() {
+  useEffect(() =&gt; {
+    todos.length === 0 &amp;&amp; dispatch(loadTodos());
+  }, []);
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><h4 id="_17-防止xss攻击" tabindex="-1"><a class="header-anchor" href="#_17-防止xss攻击" aria-hidden="true">#</a> 17. 防止XSS攻击</h4><p>第一步：服务端模拟返回恶意XSS代码</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// src/shared/state/todo.slice.js
+import { nanoid } from &quot;@reduxjs/toolkit&quot;;
+createSlice({
+  extraReducers: {
+    [loadTodos.fulfilled](state, action) {
+      state.push({
+        id: nanoid(),
+        title: &quot;&lt;/script&gt;&lt;script&gt;for(var i = 0; i &lt; 2; i++){alert(&#39;逗你玩儿😝&#39;)}&lt;/script&gt;&quot;,
+      });
+    },
+  },
+});
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>第二步：通过 serializeJavascript 方法对数据进行转换</p><div class="language-javascript ext-js line-numbers-mode"><pre class="language-javascript"><code><span class="token keyword">import</span> serializeJavascript <span class="token keyword">from</span> <span class="token string">&quot;serialize-javascript&quot;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> store</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 获取初始状态</span>
+  <span class="token keyword">const</span> initialState <span class="token operator">=</span> <span class="token function">serializeJavascript</span><span class="token punctuation">(</span>store<span class="token punctuation">.</span><span class="token function">getState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h4 id="_18-设置页面头信息" tabindex="-1"><a class="header-anchor" href="#_18-设置页面头信息" aria-hidden="true">#</a> 18. 设置页面头信息</h4><p><a href="https://www.npmjs.com/package/react-helmet" target="_blank" rel="noopener noreferrer">react-helmet<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><!----></span></a></p><p>每个页面的独有的头信息就写在自己的组件里面。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import { Helmet } from &quot;react-helmet&quot;;
+
+export default function Home() {
+  return (
+    &lt;Helmet&gt;
+      &lt;title&gt;首页&lt;/title&gt;
+    &lt;/Helmet&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import { Helmet } from &quot;react-helmet&quot;;
+
+export default function List() {
+  return (
+    &lt;Helmet&gt;
+      &lt;title&gt;列表页&lt;/title&gt;
+    &lt;/Helmet&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>每个页面公共的头信息写在布局组件中。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import { Helmet } from &quot;react-helmet&quot;;
+import { Outlet } from &quot;react-router-dom&quot;;
+
+export default function Layout() {
+  return (
+    &lt;&gt;
+      &lt;Helmet&gt;
+        &lt;meta charSet=&quot;utf-8&quot; /&gt;
+      &lt;/Helmet&gt;
+      &lt;Outlet /&gt;
+    &lt;/&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>将布局组件配置在路由信息中。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import Layout from &quot;./pages/Layout&quot;;
+
+export const routes = [
+  {
+    path: &quot;/&quot;,
+    element: &lt;Layout /&gt;,
+    children: [
+      {
+        path: &quot;&quot;,
+        element: &lt;Home /&gt;,
+      }
+    ],
+  },
+];
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><!--]--></div><footer class="page-meta"><div class="meta-item edit-link"><a class="nav-link meta-item-label" href="https://github.com/vuepress-reco/vuepress-theme-reco-next/edit/main//docs/02.Front-endFrameKnowledge/02.React/07.React%20SSR.md" rel="noopener noreferrer" target="_blank" aria-label="Edit this page"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->Edit this page<!--]--></span></a><span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><!----></span><!--[--><!--]--></a></div><div class="meta-item last-updated"><span class="meta-item-label">Last Updated: </span><span class="meta-item-info">2022-04-11 08:57:15</span></div></footer><nav class="page-nav"><p class="inner"><span class="prev"> ← <a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/06.React Router.html" class="nav-link" aria-label="React Router -- React 路由管理"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React Router -- React 路由管理<!--]--></span></a><!--[--><!--]--></a></span><span class="next"><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/08.React TypeScript.html" class="nav-link" aria-label="React TypeScript -- React 使用 TypeScript 开发"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React TypeScript -- React 使用 TypeScript 开发<!--]--></span></a><!--[--><!--]--></a> → </span></p></nav><div class="reco-valine-wrapper" style="display:none;"><div id="valine"></div></div></main><!--]--><div class="page-header-container"><h5 class="tip">ON THIS PAGE</h5><ul><!--[--><!--[--><li class="page-header-menu-depth_2"><a aria-current="page" href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/07.React SSR.html#react-ssr-react-服务端渲染" class="router-link-active router-link-exact-active nav-link page-header-item" aria-label="React SSR -- React 服务端渲染"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React SSR -- React 服务端渲染<!--]--></span></a><!--[--><!--]--></a></li><!--[--><li class="page-header-menu-depth_3"><a aria-current="page" href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/07.React SSR.html#_1-概述" class="router-link-active router-link-exact-active nav-link page-header-item" aria-label="1. 概述"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->1. 概述<!--]--></span></a><!--[--><!--]--></a></li><!--]--><!--[--><li class="page-header-menu-depth_3"><a aria-current="page" href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/07.React SSR.html#_2-next-js" class="router-link-active router-link-exact-active nav-link page-header-item" aria-label="2. Next.js"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->2. Next.js<!--]--></span></a><!--[--><!--]--></a></li><!--]--><!--[--><li class="page-header-menu-depth_3"><a aria-current="page" href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/07.React SSR.html#_3-服务器端渲染原理" class="router-link-active router-link-exact-active nav-link page-header-item" aria-label="3. 服务器端渲染原理"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->3. 服务器端渲染原理<!--]--></span></a><!--[--><!--]--></a></li><!--]--><!--]--><!--]--></ul></div></div></div><!----><!----><!--]--></div>
+    <script src="/Blog-StudyNotes/assets/js/runtime~app.a27b0316.js" defer></script><script src="/Blog-StudyNotes/assets/js/3769.75743e32.js" defer></script><script src="/Blog-StudyNotes/assets/js/app.fbc5ca59.js" defer></script>
+  </body>
+</html>

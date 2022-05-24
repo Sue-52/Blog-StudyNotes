@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="generator" content="VuePress 2.0.0-beta.33">
+    <script>
+      const userMode = localStorage.getItem('vuepress-reco-color-scheme');
+      const systemDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+      if (userMode === 'dark' || (typeof userMode !== 'string' && systemDarkMode)) {
+        document.documentElement.classList.toggle('dark', true);
+      }
+    </script>
+    <title>React Development Basic -- 组件开发基础 | 八云家的记事簿</title><meta name="description" content="用于记录自身学习笔记、常用工具、实用的网页等">
+    <link rel="preload" href="/Blog-StudyNotes/assets/js/runtime~app.a27b0316.js" as="script"><link rel="preload" href="/Blog-StudyNotes/assets/css/styles.a442bfb3.css" as="style"><link rel="preload" href="/Blog-StudyNotes/assets/js/3769.75743e32.js" as="script"><link rel="preload" href="/Blog-StudyNotes/assets/js/app.fbc5ca59.js" as="script">
+    <link rel="stylesheet" href="/Blog-StudyNotes/assets/css/styles.a442bfb3.css">
+  </head>
+  <body>
+    <div id="app"><!--[--><div class="theme-container"><div class="common-wrapper show-page-headers"><header class="navbar-container"><div class="toggle-sidebar-button" aria-expanded="false" role="button" tabindex="0"><div class="icon" aria-hidden="true"><span></span><span></span><span></span></div></div><span class="site-brand"><a href="/Blog-StudyNotes/" class=""><img class="logo" src="/Blog-StudyNotes/logo.png" alt="八云家的记事簿"><span class="site-name can-hide">八云家的记事簿</span></a></span><div class="navbar-links-wrapper" style=""><form class="search-box" role="search"><input type="search" autocomplete="off" spellcheck="false" value><!----></form><nav class="navbar-links"><!--[--><div class="navbar-links-item"><a href="/Blog-StudyNotes/" class="nav-link" aria-label="首页"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H3l9-9l9 9h-2"></path><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"></path><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->首页<!--]--></span></a><!--[--><!--]--></a></div><div class="navbar-links-item"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="学习分类"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1m3 0v18"></path><path d="M13 8h2"></path><path d="M13 12h2"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->学习分类<!--]--></span></a><!----></button><button class="mobile-dropdown-title" type="button" aria-label="学习分类"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1m3 0v18"></path><path d="M13 8h2"></path><path d="M13 12h2"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->学习分类<!--]--></span></a><!----></button><!--[--><ul style="display:none;" class="nav-dropdown"><!--[--><li class="dropdown-item"><a href="/Blog-StudyNotes/docs/01.Front-endBasicKnowledge/" class="nav-link" aria-label="前端基础"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->前端基础<!--]--></span></a><!--[--><!--]--></a></li><li class="dropdown-item"><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/" class="nav-link router-link-active" aria-label="前端框架"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->前端框架<!--]--></span></a><!--[--><!--]--></a></li><!--]--></ul><!--]--></div></div><div class="navbar-links-item"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="常用工具"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><path d="M7 10h3V7L6.5 3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1-3 3l-6-6a6 6 0 0 1-8-8L7 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="color:inherit;font-size:14px;"><!--[-->常用工具<!--]--></span></a><!----></button><button class="mobile-dropdown-title" type="button" aria-label="常用工具"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><path d="M7 10h3V7L6.5 3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1-3 3l-6-6a6 6 0 0 1-8-8L7 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="color:inherit;font-size:14px;"><!--[-->常用工具<!--]--></span></a><!----></button><!--[--><ul style="display:none;" class="nav-dropdown"><!--[--><li class="dropdown-item"><a href="/Blog-StudyNotes/docs/01.Front-endBasicKnowledge/" class="nav-link" aria-label="前端基础"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->前端基础<!--]--></span></a><!--[--><!--]--></a></li><!--]--></ul><!--]--></div></div><div class="navbar-links-item"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="资源分享"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h11a2 2 0 0 1 2 2v.5a.5.5 0 0 0 .5.5a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5a.5.5 0 0 0-.5.5v.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2"></path><path d="M7 10v4"></path><path d="M10 10v4"></path><path d="M13 10v4"></path><path d="M16 10v4"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->资源分享<!--]--></span></a><!----></button><button class="mobile-dropdown-title" type="button" aria-label="资源分享"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h11a2 2 0 0 1 2 2v.5a.5.5 0 0 0 .5.5a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5a.5.5 0 0 0-.5.5v.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2"></path><path d="M7 10v4"></path><path d="M10 10v4"></path><path d="M13 10v4"></path><path d="M16 10v4"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->资源分享<!--]--></span></a><!----></button><!--[--><ul style="display:none;" class="nav-dropdown"><!--[--><li class="dropdown-item"><a href="/Blog-StudyNotes/docs/01.Front-endBasicKnowledge/" class="nav-link" aria-label="前端基础"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->前端基础<!--]--></span></a><!--[--><!--]--></a></li><!--]--></ul><!--]--></div></div><div class="navbar-links-item"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="部分文档"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path><path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path><path d="M3 6v13"></path><path d="M12 6v13"></path><path d="M21 6v13"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->部分文档<!--]--></span></a><!----></button><button class="mobile-dropdown-title" type="button" aria-label="部分文档"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path><path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path><path d="M3 6v13"></path><path d="M12 6v13"></path><path d="M21 6v13"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->部分文档<!--]--></span></a><!----></button><!--[--><ul style="display:none;" class="nav-dropdown"><!--[--><li class="dropdown-item"><a href="/Blog-StudyNotes/blogs/01.Front-End Interview Question/" class="nav-link" aria-label="前端面试题 ①"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->前端面试题 ①<!--]--></span></a><!--[--><!--]--></a></li><li class="dropdown-item"><a href="/Blog-StudyNotes/blogs/02.Leetcode/" class="nav-link" aria-label="Leetcode"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->Leetcode<!--]--></span></a><!--[--><!--]--></a></li><!--]--></ul><!--]--></div></div><!--]--></nav><a class="icon-container left btn-toggle-dark-mode" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3h.393a7.5 7.5 0 0 0 7.92 12.446A9 9 0 1 1 12 2.992z"></path><path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0-2 2a2 2 0 0 0-2-2a2 2 0 0 0 2-2"></path><path d="M19 11h2m-1-1v2"></path></g></svg><!----></a></div></header><div class="sidebar-mask"></div><aside class="series-container"><nav class="navbar-links"><!--[--><div class="navbar-links-item"><a href="/Blog-StudyNotes/" class="nav-link" aria-label="首页"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H3l9-9l9 9h-2"></path><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"></path><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->首页<!--]--></span></a><!--[--><!--]--></a></div><div class="navbar-links-item"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="学习分类"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1m3 0v18"></path><path d="M13 8h2"></path><path d="M13 12h2"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->学习分类<!--]--></span></a><!----></button><button class="mobile-dropdown-title" type="button" aria-label="学习分类"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1m3 0v18"></path><path d="M13 8h2"></path><path d="M13 12h2"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->学习分类<!--]--></span></a><!----></button><!--[--><ul style="display:none;" class="nav-dropdown"><!--[--><li class="dropdown-item"><a href="/Blog-StudyNotes/docs/01.Front-endBasicKnowledge/" class="nav-link" aria-label="前端基础"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->前端基础<!--]--></span></a><!--[--><!--]--></a></li><li class="dropdown-item"><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/" class="nav-link router-link-active" aria-label="前端框架"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->前端框架<!--]--></span></a><!--[--><!--]--></a></li><!--]--></ul><!--]--></div></div><div class="navbar-links-item"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="常用工具"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><path d="M7 10h3V7L6.5 3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1-3 3l-6-6a6 6 0 0 1-8-8L7 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="color:inherit;font-size:14px;"><!--[-->常用工具<!--]--></span></a><!----></button><button class="mobile-dropdown-title" type="button" aria-label="常用工具"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><path d="M7 10h3V7L6.5 3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1-3 3l-6-6a6 6 0 0 1-8-8L7 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="color:inherit;font-size:14px;"><!--[-->常用工具<!--]--></span></a><!----></button><!--[--><ul style="display:none;" class="nav-dropdown"><!--[--><li class="dropdown-item"><a href="/Blog-StudyNotes/docs/01.Front-endBasicKnowledge/" class="nav-link" aria-label="前端基础"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->前端基础<!--]--></span></a><!--[--><!--]--></a></li><!--]--></ul><!--]--></div></div><div class="navbar-links-item"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="资源分享"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h11a2 2 0 0 1 2 2v.5a.5.5 0 0 0 .5.5a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5a.5.5 0 0 0-.5.5v.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2"></path><path d="M7 10v4"></path><path d="M10 10v4"></path><path d="M13 10v4"></path><path d="M16 10v4"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->资源分享<!--]--></span></a><!----></button><button class="mobile-dropdown-title" type="button" aria-label="资源分享"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h11a2 2 0 0 1 2 2v.5a.5.5 0 0 0 .5.5a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5a.5.5 0 0 0-.5.5v.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2"></path><path d="M7 10v4"></path><path d="M10 10v4"></path><path d="M13 10v4"></path><path d="M16 10v4"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->资源分享<!--]--></span></a><!----></button><!--[--><ul style="display:none;" class="nav-dropdown"><!--[--><li class="dropdown-item"><a href="/Blog-StudyNotes/docs/01.Front-endBasicKnowledge/" class="nav-link" aria-label="前端基础"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->前端基础<!--]--></span></a><!--[--><!--]--></a></li><!--]--></ul><!--]--></div></div><div class="navbar-links-item"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="部分文档"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path><path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path><path d="M3 6v13"></path><path d="M12 6v13"></path><path d="M21 6v13"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->部分文档<!--]--></span></a><!----></button><button class="mobile-dropdown-title" type="button" aria-label="部分文档"><a class="icon-container left title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:20px;height:20px;font-size:20px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path><path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path><path d="M3 6v13"></path><path d="M12 6v13"></path><path d="M21 6v13"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->部分文档<!--]--></span></a><!----></button><!--[--><ul style="display:none;" class="nav-dropdown"><!--[--><li class="dropdown-item"><a href="/Blog-StudyNotes/blogs/01.Front-End Interview Question/" class="nav-link" aria-label="前端面试题 ①"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->前端面试题 ①<!--]--></span></a><!--[--><!--]--></a></li><li class="dropdown-item"><a href="/Blog-StudyNotes/blogs/02.Leetcode/" class="nav-link" aria-label="Leetcode"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->Leetcode<!--]--></span></a><!--[--><!--]--></a></li><!--]--></ul><!--]--></div></div><!--]--></nav><!--[--><!--[--><section class="series-group series-item"><h5 class="series-heading active">框架基本介绍</h5><ul><li><!--[--><a aria-current="page" href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/03.React Development Basic.html" class="router-link-active router-link-exact-active nav-link router-link-active series-item active" aria-label="React Development Basic -- 组件开发基础"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React Development Basic -- 组件开发基础<!--]--></span></a><!--[--><!--]--></a><!--]--></li></ul></section><!--]--><!--[--><section class="series-group series-item"><h5 class="series-heading">Vue3 学习</h5><ul><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/01.Vue3/" class="nav-link series-item" aria-label="Vue3 总介绍"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->Vue3 总介绍<!--]--></span></a><!--[--><!--]--></a><!--]--></li></ul></section><!--]--><!--[--><section class="series-group series-item"><h5 class="series-heading active">React 学习</h5><ul><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/" class="nav-link router-link-active series-item" aria-label="React 总介绍"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React 总介绍<!--]--></span></a><!--[--><!--]--></a><!--]--></li><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/01.React Basic.html" class="nav-link series-item" aria-label="React Basic - 入门知识"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React Basic - 入门知识<!--]--></span></a><!--[--><!--]--></a><!--]--></li><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/02.React Component.html" class="nav-link series-item" aria-label="React Component -- 组件基础知识"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React Component -- 组件基础知识<!--]--></span></a><!--[--><!--]--></a><!--]--></li><li><!--[--><a aria-current="page" href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/03.React Development Basic.html" class="router-link-active router-link-exact-active nav-link router-link-active series-item active" aria-label="React Development Basic -- 组件开发基础"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React Development Basic -- 组件开发基础<!--]--></span></a><!--[--><!--]--></a><!--]--></li><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/04.React Development Advanced.html" class="nav-link series-item" aria-label="React Development Advanced -- 组件开发进阶"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React Development Advanced -- 组件开发进阶<!--]--></span></a><!--[--><!--]--></a><!--]--></li><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/05.React State Control.html" class="nav-link series-item" aria-label="React State Control -- React 全局状态管理"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React State Control -- React 全局状态管理<!--]--></span></a><!--[--><!--]--></a><!--]--></li><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/06.React Router.html" class="nav-link series-item" aria-label="React Router -- React 路由管理"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React Router -- React 路由管理<!--]--></span></a><!--[--><!--]--></a><!--]--></li><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/07.React SSR.html" class="nav-link series-item" aria-label="React SSR -- React 服务端渲染"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React SSR -- React 服务端渲染<!--]--></span></a><!--[--><!--]--></a><!--]--></li><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/08.React TypeScript.html" class="nav-link series-item" aria-label="React TypeScript -- React 使用 TypeScript 开发"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React TypeScript -- React 使用 TypeScript 开发<!--]--></span></a><!--[--><!--]--></a><!--]--></li><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/09.React Populer Tools.html" class="nav-link series-item" aria-label="React Populer Tools -- React 流行库"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React Populer Tools -- React 流行库<!--]--></span></a><!--[--><!--]--></a><!--]--></li><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/10.React Immutable data.html" class="nav-link series-item" aria-label="React Immutable data -- React 不可变数据结构"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React Immutable data -- React 不可变数据结构<!--]--></span></a><!--[--><!--]--></a><!--]--></li><li><!--[--><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/11.React Appendix.html" class="nav-link series-item" aria-label="React Appendix -- React 附录"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React Appendix -- React 附录<!--]--></span></a><!--[--><!--]--></a><!--]--></li></ul></section><!--]--><!--]--></aside><!--[--><main class="page-container show-sidebar show-page-headers"><h1 class="page-title">React Development Basic -- 组件开发基础</h1><div class="page-info"><a class="icon-container left" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:18px;height:18px;font-size:18px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"></circle><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->Sue-52<!--]--></span></a><a class="icon-container left" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:18px;height:18px;font-size:18px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 3"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[-->2022-04-02 16:20:00<!--]--></span></a><a class="icon-container left" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:18px;height:18px;font-size:18px;"><path d="M5 4h4l3 3h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span style="color:inherit;font-size:14px;"><!--[--><!--[--><a href="/Blog-StudyNotes/categories/React/1/" class="category">React</a><!--]--><!--]--></span></a><a class="icon-container left" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:18px;height:18px;font-size:18px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="8.5" r="1" fill="currentColor"></circle><path d="M4 7v3.859c0 .537.213 1.052.593 1.432l8.116 8.116a2.025 2.025 0 0 0 2.864 0l4.834-4.834a2.025 2.025 0 0 0 0-2.864L12.29 4.593A2.025 2.025 0 0 0 10.859 4H7a3 3 0 0 0-3 3z"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[--><!--[--><a href="/Blog-StudyNotes/tags/React/1/" class="tag">React</a><!--]--><!--]--></span></a><a class="icon-container left" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 24 24" style="color:inherit;width:18px;height:18px;font-size:18px;"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"></circle><path d="M22 12c-2.667 4.667-6 7-10 7s-7.333-2.333-10-7c2.667-4.667 6-7 10-7s7.333 2.333 10 7"></path></g></svg><span style="color:inherit;font-size:14px;"><!--[--><span id="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/03.React Development Basic.html" class="leancloud-visitors" data-flag-title="Your Article Title"><a class="leancloud-visitors-count" style=""></a></span><!--]--></span></a></div><div class="theme-reco-default-content"><!--[--><h2 id="react-development-basic-组件开发基础" tabindex="-1"><a class="header-anchor" href="#react-development-basic-组件开发基础" aria-hidden="true">#</a> React Development Basic -- 组件开发基础</h2><blockquote><p>目标：</p><ol><li>组件概述</li><li>复用组件</li><li>组件模板</li><li>组件状态</li><li>组件通讯</li><li>表单控制</li><li>样式控制</li><li>传送门组件</li></ol></blockquote><h3 id="_1-组件概述" tabindex="-1"><a class="header-anchor" href="#_1-组件概述" aria-hidden="true">#</a> 1. 组件概述</h3><blockquote><p>目标：</p><ol><li>什么是组件</li><li>组件的设计思想</li><li>如何创建组件</li></ol></blockquote><h4 id="_1-1-什么是组件" tabindex="-1"><a class="header-anchor" href="#_1-1-什么是组件" aria-hidden="true">#</a> 1.1 什么是组件</h4><p>​ 在一个页面中，如果将全部逻辑代码、页面的布局代码、样式代码等放在一起，这样处理起来会很麻烦，并且不利于后续管理和扩展。</p><p>​ 于是乎，产生了一种开发思路：<strong>组件化开发</strong></p><p>​ 组件化开发就是将一个页面拆分为一个个功能模块，每个功能完成自己这部分的独立功能。</p><p>整体过程为：</p><ul><li>将一个完整的页面分为很多组件</li><li>每个组件用于实现页面中的一个功能模块</li></ul><h5 id="_1-react-的组件化" tabindex="-1"><a class="header-anchor" href="#_1-react-的组件化" aria-hidden="true">#</a> 1. React 的组件化</h5><p><code>React</code> 中的组件就是页面中的一小块区域，组件内部会包含这块区域中的视图代码、样式代码以及逻辑代码。</p><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/image-20220325161026819.png" alt="image-20220325161026819"></p><p><code>React</code> 采用组件化的方式构建用户界面</p><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/image-20220325161042749.png" alt="image-20220325161042749"></p><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/image-20220325161116982.png" alt="image-20220325161116982"></p><p>​ 组件的另一个核心思想就是<strong>解耦</strong>，默认情况下每个组件都有自己的作用域，内部代码在外部是不可见的，这意味着组件之间的代码不会发生冲突，从而避免在传统开发中经常出现的改A坏B的问题。</p><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/05.png" alt="05"></p><h4 id="_1-3-如何创建组件" tabindex="-1"><a class="header-anchor" href="#_1-3-如何创建组件" aria-hidden="true">#</a> 1.3 如何创建组件</h4><p>在 React 中组件以函数的形式存在，组件最基本的特征就是一个返回视图（JSX）的函数。</p><p>示例：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// 组件的首字母必须为大写
+function App() {
+    return &lt;div&gt; Hello World!!! &lt;/div&gt;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>在 React 中，组件以自定义标签的形式进行调用：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>ReactDOM.render(&lt;App /&gt;, document.getElementById(&quot;root&quot;))
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><p>多次调用 <code>App</code> 组件：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>const jsx = (
+  &lt;&gt;
+    &lt;App /&gt;
+    &lt;App /&gt;
+  &lt;/&gt;
+)
+ReactDOM.render(jsx, document.getElementById(&quot;root&quot;))
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>组件和 HTML 一样，都是以树状结构存在的。</p><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/06.png" alt="06"></p><p>示例：</p><p>![create components](https://raw.githubusercontent.com/Sue-52/PicGo/main/images/create components.png)</p><h3 id="_2-复用组件" tabindex="-1"><a class="header-anchor" href="#_2-复用组件" aria-hidden="true">#</a> 2. 复用组件</h3><blockquote><p>目标：</p><ol><li>props</li><li>children</li></ol></blockquote><h4 id="_2-1-props-继承" tabindex="-1"><a class="header-anchor" href="#_2-1-props-继承" aria-hidden="true">#</a> 2.1 Props 继承</h4><p>在调用组件时，通过为组件标签添加属性的方式向子组件内部传递数据，实现组件的差异化和复用。</p><p>示例：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>&lt;ChildProps msg=&quot;first&quot; /&gt;
+&lt;ChildProps msg=&quot;second&quot; /&gt;
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>在子组件内部，通过组件函数参数接收父组件中传递的数据，组件函数中的第一个参数是对象类型，可以进行属性解构，存储了父组件中传来的所有数据。</p><p>示例1：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function ChildProps (props) {
+    return &lt;p&gt; {props.msg} &lt;/p&gt;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>示例2：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function ChildProps ({ msg }) {
+    return &lt;p&gt; { msg } &lt;/p&gt;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>子组件中的 props 参数可以设置为默认值，这样调用组件时就可以根据子组件内部所需内容进行传递，当数据传递了，则使用父组件传递的数据，没有则使用默认数据</p><p>示例：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>ChildProps.defaultProps = {
+    msg: &quot;Hello React&quot;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>使用时：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>&lt;ChildProps msg=&quot;first&quot; /&gt; // first
+&lt;ChildProps /&gt; // Hello React
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>子组件中的 props 默认值可以防止内部代码执行出错。</p><p>错误示例：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function Person (props) {
+  return &lt;div&gt;{props.info.name}&lt;/div&gt;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>&lt;Person /&gt; // 报错, 因为组件内部代码执行时, 通过 props 获取到的 info 为 undefined, 不能再通过 undefined 获取 name
+&lt;Person info={{name: &quot;张三&quot;}}/&gt; // 张三
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>正确示例：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>Person.defaultProps = {
+  info: {}
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>&lt;Person /&gt; // 不会报错, 因为在 JSX 中渲染 undefined 是合法的
+&lt;Person info={{name: &quot;张三&quot;}}/&gt; // 张三
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h4 id="_2-2-children-组合" tabindex="-1"><a class="header-anchor" href="#_2-2-children-组合" aria-hidden="true">#</a> 2.2 children 组合</h4><p>在调用组件时，可以向组件内部添加 JSX，实现差异化组件复用，相比于 props，使用 children 可以向子组件内部传递更复杂的数据。</p><p>示例1：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>&lt;Person&gt; Hello, React Children Property &lt;/Person&gt;
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><p>示例2：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>&lt;Person&gt; 
+	&lt;p&gt; single child &lt;/p&gt;
+&lt;/Person&gt;
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>示例3：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>&lt;Person&gt; 
+	&lt;p&gt; single child &lt;/p&gt;
+    &lt;p&gt; single child &lt;/p&gt;
+    &lt;p&gt; single child &lt;/p&gt;
+&lt;/Person&gt;
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>Person 组件：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function Person(props) {
+    return &lt;div&gt; { props.children } &lt;/div&gt;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>能够传递任何的JavaScript表达式作为children，包括函数。其中 children 的最常用的场景就是辅助创建布局组件。布局组件可以增强组件复用能力。</p><p>示例：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function HomePage() {
+  return &lt;div&gt;HomePage&lt;/div&gt;;
+}
+function AboutPage() {
+  return &lt;div&gt;AboutPage&lt;/div&gt;;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function Header() {
+  return &lt;div&gt;Header&lt;/div&gt;;
+}
+function Footer() {
+  return &lt;div&gt;Footer&lt;/div&gt;;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function Layout(props) {
+  return (
+    &lt;&gt;
+    &lt;Header /&gt;
+    &lt;div&gt;{props.children}&lt;/div&gt;
+    &lt;Footer /&gt;
+    &lt;/&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function HomePage() {
+  return &lt;Layout&gt;HomePage&lt;/Layout&gt;;
+}
+function AboutPage() {
+  return &lt;Layout&gt;AboutPage&lt;/Layout&gt;;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h3 id="_3-组件模板" tabindex="-1"><a class="header-anchor" href="#_3-组件模板" aria-hidden="true">#</a> 3. 组件模板</h3><blockquote><p>目标：</p><ol><li>事件程序</li><li>条件渲染</li><li>列表渲染</li></ol></blockquote><h4 id="_3-1-事件程序" tabindex="-1"><a class="header-anchor" href="#_3-1-事件程序" aria-hidden="true">#</a> 3.1 事件程序</h4><blockquote><p>目标：</p><ol><li>添加事件</li><li>事件传参</li><li>事件对象</li></ol></blockquote><h5 id="_1-添加事件" tabindex="-1"><a class="header-anchor" href="#_1-添加事件" aria-hidden="true">#</a> 1. 添加事件</h5><p>在 JSX 中，为元素添加事件：</p><ul><li>React 事件的命名采用小驼峰式（camelCase），而不是纯小写。</li><li>使用 JSX 语法时你需要传入一个函数作为事件处理函数，而不是一个字符串。</li><li>事件处理函数通过插值的方式指定。</li></ul><p>示例：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function App() {
+    const handleClickButton = () =&gt; {
+        console.log(&quot;Hello React!&quot;)
+    }
+    return &lt;button onClick={handleClickButton}&gt; button &lt;/button&gt;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>在 React 中另一个不同点是你不能通过返回 <code>false</code> 的方式阻止默认行为。你必须显式的使用 <code>preventDefault</code></p><h5 id="_2-事件传参" tabindex="-1"><a class="header-anchor" href="#_2-事件传参" aria-hidden="true">#</a> 2. 事件传参</h5><p>在 JSX 中，为事件添加参数和 javascript 中调用函数思路一致。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function App() {
+    const handleClick = (str1, str2) =&gt; {
+        console.log(str1, str2);
+    };
+    return &lt;button onClick={() =&gt; handleClickButton(&quot;Hello&quot;, &quot;React&quot;)}&gt; button &lt;/button&gt;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h5 id="_3-事件对象-event" tabindex="-1"><a class="header-anchor" href="#_3-事件对象-event" aria-hidden="true">#</a> 3. 事件对象 event</h5><ul><li><p>事件处理函数，在没有传递参数时，第一个参数默认为事件对象</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function App () {
+ 	const onClickHandler = (event) =&gt; {
+        console.log(event)
+    }
+  	return &lt;button onClick={onClickHandler}&gt; button &lt;/button&gt;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div></li><li><p>事件处理函数如果传入了参数的情况，默认最后一个参数为事件对象</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function App () {
+  	const onClickHandler = (arg1, arg2, event) =&gt; {
+     	 console.log(arg1, arg2, event)
+  	}
+ 	 return &lt;button onClick={() =&gt; onClickHandler(&#39;a&#39;, &#39;b&#39;)}&gt; button &lt;/button&gt;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div></li><li><p>在调用事件处理函数时，可以将事件对象以参数显性传递</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function App () {
+  	const onClickHandler = (arg1, event, arg2) =&gt; {
+        console.log(arg1, event, arg2)
+    }
+ 	 return &lt;button onClick={(event) =&gt; onClickHandler(&#39;a&#39;, event, &#39;b&#39;)}&gt; button &lt;/button&gt;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div></li></ul><h4 id="_2-3-2-条件渲染" tabindex="-1"><a class="header-anchor" href="#_2-3-2-条件渲染" aria-hidden="true">#</a> 2.3.2 条件渲染</h4><blockquote><p>目标：</p><ol><li>If 条件判断</li><li>三元运算符</li></ol></blockquote><p>在组件模板中, 根据条件的不同渲染不同的视图元素。</p><h5 id="_1-if-条件判断" tabindex="-1"><a class="header-anchor" href="#_1-if-条件判断" aria-hidden="true">#</a> 1. If 条件判断</h5><blockquote><p>The <strong><code>if</code></strong> statement executes a statement if a specified condition is <strong>true</strong>. If the condition is <strong>false</strong>, another statement can be executed.</p></blockquote><p>当指定条件为真，<strong>if 语句</strong>会执行一段语句。如果条件为假，则执行另一段语句</p><p>示例1：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function OnMessage() {
+  	return &lt;span&gt;The Machine is On&lt;/span&gt;
+}
+function OffMessage() {
+  	return &lt;span&gt;The Machine is Off&lt;/span&gt;
+}
+function OnOff() {
+  	if (true) {
+    	return &lt;OnMessage /&gt;
+  	} else {
+    	return &lt;OffMessage /&gt;
+  	}
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>示例2：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function Message() {
+    const getMessage() {
+        if(true) {
+            return &lt;OnMessage /&gt;
+        }else {
+            return &lt;OffMessage /&gt;
+        }
+    }
+    return {getMessage()}
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>示例3：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function Machine() {
+  	let message = null
+  	if (true) {
+    	message = &lt;OnMessage /&gt;
+  	} else {
+    	message = &lt;OffMessage /&gt;
+  	}
+  	return &lt;p&gt;{message}&lt;/p&gt;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><h5 id="_2-三元运算符" tabindex="-1"><a class="header-anchor" href="#_2-三元运算符" aria-hidden="true">#</a> 2. 三元运算符</h5><blockquote><p>The conditional (ternary) operator is the only JavaScript operator that takes three operands: a condition followed by a question mark (?), then an expression to execute if the condition is <strong>true</strong> followed by a colon (😃, and finally the expression to execute if the condition is <strong>false</strong>. This operator is frequently used as an alternative to an if...else statement.</p></blockquote><p><strong>条件（三元）运算符</strong>是 JavaScript 仅有的使用三个操作数的运算符。一个条件后面会跟一个问号（?），如果条件为 <strong>true</strong> ，则问号后面的表达式A将会执行；表达式A后面跟着一个冒号（:），如果条件为 <strong>false</strong> ，则冒号后面的表达式B将会执行。本运算符经常作为 <code>if</code> 语句的简捷形式来使用。</p><p>示例1：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function Message() {
+    return &lt;p&gt; {true ? &lt;OnMessage /&gt; : &lt;OffMessage /&gt;} &lt;/p&gt;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>示例2：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>const isError = true
+function Message() {
+    &lt;div className={isError ? &quot;error&quot; : &quot;success&quot;}&gt;
+    	{isError ? &lt;p&gt;Something went wrong...&lt;/p&gt; : &lt;p&gt;Everythis is ok&lt;/p&gt;}
+    &lt;/div&gt;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h4 id="_2-3-3-列表渲染" tabindex="-1"><a class="header-anchor" href="#_2-3-3-列表渲染" aria-hidden="true">#</a> 2.3.3 列表渲染</h4><blockquote><p>目标：</p><ol><li>数组自动展开</li><li>列表渲染（map方法）</li><li>key 属性</li></ol></blockquote><h5 id="_1-数组自动展开" tabindex="-1"><a class="header-anchor" href="#_1-数组自动展开" aria-hidden="true">#</a> 1. 数组自动展开</h5><p>在 JSX 中，可以直接将数组放入插值表达式中，因为数组会被自动展开，数组中的元素追直接渲染到该位置。</p><p>示例1：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function Home() {
+  const data = [&quot;The beach&quot;, &quot;The mountains&quot;, &quot;Vibrant cities&quot;, &quot;Roughing it&quot;];
+  return (
+    &lt;&gt;
+      &lt;div&gt;{data}&lt;/div&gt;
+    &lt;/&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/image-20220325161251268.png" alt="image-20220325161251268"></p><p>示例2：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function Home() {
+  const jsxList = [
+    &lt;li&gt;list-item-1&lt;/li&gt;,
+    &lt;li&gt;list-item-2&lt;/li&gt;,
+    &lt;li&gt;list-item-3&lt;/li&gt;,
+  ];
+  return (
+    &lt;&gt;
+      &lt;ul&gt;{jsxList}&lt;/ul&gt;
+    &lt;/&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/image-20220325161315285.png" alt="image-20220325161315285"></p><p>注意：不能直接将对象数组放置在插值语法中，因为当数组被展开后，JSX 不知道要如何渲染对象。</p><p>示例：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>const data = [
+  { name: &quot;The beach&quot; },
+  { name: &quot;The mountains&quot; },
+  { name: &quot;Vibrant cities&quot; },
+  { name: &quot;Roughing it&quot; }
+]
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/image-20220325161329931.png" alt="image-20220325161329931"></p><h5 id="_2-列表渲染-map方法" tabindex="-1"><a class="header-anchor" href="#_2-列表渲染-map方法" aria-hidden="true">#</a> 2. 列表渲染（map方法）</h5><p>map() 方法返回一个新数组，数组中的元素为原始数组元素调用函数处理后的值。</p><p>map() 方法按照原始数组元素顺序依次处理元素。</p><p><strong>注意：</strong> map() 不会对空数组进行检测。</p><p><strong>注意：</strong> map() 不会改变原始数组。</p><p><strong>参数说明：</strong></p><ul><li>第一个参数：函数（必须） <ul><li>currentValue，当前元素的值（必须）</li><li>index：当前元素的索引值（可选）</li><li>arr：当前元素属于的数组对象（可选）</li></ul></li><li>thisValue：可选。对象作为该执行回调时使用，传递给函数，用作 &quot;this&quot; 的值。 如果省略了 thisValue，或者传入 null、undefined，那么回调函数的 this 为全局对象。</li></ul><p>返回值：一个新的数组</p><p>示例：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>const arr = [1, 2, 3, 4, 5, 6];
+const newArr = arr.map((item, index) =&gt; item * index);
+console.log(newArr); // [0, 2, 6, 12, 20, 30]
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>map方法内部会对原数组进行遍历，在遍历的过程中不断调用传递到 map 方法中的回调函数，并将当前遍历的值和索引值传递给回调函数，回调函数的返回值会被存储到一个新的数组中，结束遍历后返回到新的数组中。</p><div class="language-javascript ext-js line-numbers-mode"><pre class="language-javascript"><code><span class="token class-name">Array</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function-variable function">myMap</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">callback</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> result <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    result<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token function">callback</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> i<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> result
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>map 方法在 JSX 中的应用：将数组中的内容渲染到 ul 标签中, 内容使用 li 标签包裹。</p><p>示例1：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function Home() {
+  let data = [&quot;Data1&quot;, &quot;Data2&quot;, &quot;Data3&quot;];
+
+  return (
+    &lt;&gt;
+      &lt;ul&gt;
+        {data.map((item, index) =&gt; (
+          &lt;li key={index}&gt;{item}&lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/image-20220325161348665.png" alt="image-20220325161348665"></p><p>渲染过程图：</p><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/08.png" alt="08"></p><h5 id="_3-key-属性" tabindex="-1"><a class="header-anchor" href="#_3-key-属性" aria-hidden="true">#</a> 3. key 属性</h5><p>在列表渲染的过程中，React 建议开发者为列表项添加 key 属性，否则在控制台中输出警告。</p><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/image-20220325161428037.png" alt="image-20220325161428037"></p><p>key 属性用于为列表中的元素提供标识，React通过标识来识别元素发生的变化，实现元素的更增删改查，以此提升性能。</p><ul><li><p>当列表渲染时没有key属性，则当数据更新时元素会发生整体的重新渲染。</p></li><li><p>当列表有 key 属性时，当数据更新时，只有变化的元素会重新渲染，其余元素则会被复用。</p></li><li><p>并且 key 值必须不为重复的，一般以id作为key值</p></li></ul><p>如果列表只在组件初始化的时候渲染一次，后续不发生变化，也可以使用循环索引作为 key 属性的值。</p><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/17.png" alt="17"></p><h3 id="_4-组件状态" tabindex="-1"><a class="header-anchor" href="#_4-组件状态" aria-hidden="true">#</a> 4. 组件状态</h3><blockquote><p>目标：</p><ol><li>组件状态概述</li><li>钩子函数概述</li><li>useState</li><li>useEffect</li></ol></blockquote><h4 id="_4-1-组件状态概述" tabindex="-1"><a class="header-anchor" href="#_4-1-组件状态概述" aria-hidden="true">#</a> 4.1 组件状态概述</h4><p>在现实世界中，状态通常是指人或事物表现出来的形态。</p><p>由于组件执行的最终结果就是用户界面，所以组件状态指的就是用户界面的状态。</p><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/21.png" alt="21"></p><p>React 遵循数据驱动DOM的理念，数据的变化会引起试图的更新。在React中，有两个核心的默认属性，分别是state和props。state会记录组件的状态，React根据状态的变化，会对界面做相应的调整或渲染。props则是数据流向属性，React通过props传递来实现父子组件之间的通信。</p><p>所谓的数据则是该组件的状态数据，组件状态数据其实就是组件内部维护的能够驱动视图更新的数据。</p><h4 id="_4-2-钩子函数概述" tabindex="-1"><a class="header-anchor" href="#_4-2-钩子函数概述" aria-hidden="true">#</a> 4.2 钩子函数概述</h4><blockquote><p>目标：</p><ol><li>命名规范</li><li>思想</li><li>代码组织</li></ol></blockquote><p>“hooks” 直译为：“钩子”，是系统在运行到某一时期时，会调用被注册到该师级的回调函数。</p><p>比较常见的钩子有：<code>windows</code> 系统的钩子能监听到系统的各种事件，浏览器提供的 <code>onload</code> 或 <code>addEventListener</code> 能注册在浏览器各种时机被调用的方法。</p><p>在react中的 hooks 为：</p><blockquote><p>一系列以 <code>“use”</code> 作为开头的方法，它们提供了让你可以完全避开 <code>class式写法</code>，在函数式组件中完成生命周期、状态管理、逻辑复用等几乎全部组件开发工作的能力。</p></blockquote><p>就是说提供了在<strong>函数式组件</strong>中完成开发工作的能力。</p><p>React 使用函数作为组件，但是函数自身有重大限制，就是不能持续保存状态，因为函数在执行完成以后内部的局部变量就被释放了。</p><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/image-20220325161600344.png" alt="image-20220325161600344"></p><p>其钩子具有保存状态的功能，因为只有状态被保存了，我们才可以基于现有状态计算新状态，使用新的状态更新视图。</p><h5 id="_1-命名规范" tabindex="-1"><a class="header-anchor" href="#_1-命名规范" aria-hidden="true">#</a> 1. 命名规范</h5><p>通常来说，<code>hooks</code> 的命名都是以 <code>use</code> 作为开头，这个规范也包括了那么我们自定义的 <code>hooks</code>。</p><h5 id="_2-思想" tabindex="-1"><a class="header-anchor" href="#_2-思想" aria-hidden="true">#</a> 2. 思想</h5><p>在 <code>react</code> 官方文档里，对 <code>hooks</code> 的定义和使用提出了 <strong>“一个假设、两个只在”</strong> 核心指导思想。</p><ul><li><strong>一个假设：</strong> 假设任何以 「<code>use</code>」 开头并紧跟着一个大写字母的函数就是一个 <code>Hook</code>。</li><li><strong>第一个只在：</strong> 只在 <code>React</code> 函数组件中调用 <code>Hook</code>，而不在普通函数中调用 <code>Hook</code>。（<code>Eslint</code> 通过判断一个方法是不是大坨峰命名来判断它是否是 <code>React</code> 函数）</li><li><strong>第二个只在：</strong> 只在最顶层使用 <code>Hook</code>，而不要在循环，条件或嵌套函数中调用 Hook。</li></ul><p>因为是约定，因此 <code>useXxx </code>的命名并非强制，你依然可以将你自定义的 <code>hook</code> 命名为 <code>byXxx</code> 或其他方式，但不推荐。</p><h5 id="_3-代码组织" tabindex="-1"><a class="header-anchor" href="#_3-代码组织" aria-hidden="true">#</a> 3. 代码组织</h5><p>项目、模块、页面、功能，如何高效而清晰地组织代码。一个页面中，N件事情的代码在一个组件内互相纠缠确实是在 <code>Hooks</code> 出现之前非常常见的一种状态。</p><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/image-20220325161618693.png" alt="image-20220325161618693"></p><p>（假设每一种颜色就是代码一种高度相关的业务逻辑）</p><p>无论是 <code>vue</code> 还是 <code>react</code>, 通过 <code>Hooks</code> 写法都能做到，将“分散在各种声明周期里的代码块”，通过 <code>Hooks</code> 的方式将相关的内容聚合到一起。</p><p>这样带来的好处是显而易见的：<strong>“高度聚合，可阅读性提升”</strong>。伴随而来的便是 <strong>“效率提升，bug变少”</strong>。</p><h4 id="_4-3-usestate" tabindex="-1"><a class="header-anchor" href="#_4-3-usestate" aria-hidden="true">#</a> 4.3 useState</h4><p><code>React.useState</code> 方法用于声明组件状态数据，通过该方法声明状态数据被更新后触发视图的更新。</p><p>使用示例：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>const [state, setState] = useState(initialState)
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><ul><li>useState 有一个参数（initialState 可以是一个函数，返回一个值，但一般都不会这么用），该参数可以为任意数据类型，一般用作默认值.</li><li>useState 返回值为一个数组，数组的第一个参数为我们需要使用的 state，第二个参数为一个改变state的函数（功能和this.setState一样）</li></ul><p>示例：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import React,{useState} from &quot;react&quot;;
+function Example() {
+  const [count, setCount] = useState(0);
+  return (
+    &lt;div&gt;
+      &lt;p&gt;You clicked {count} times&lt;/p&gt;
+      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;Click me&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+export default Example;
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><ul><li><strong>「第一行」:</strong> 引入 React 中的 <code>useState</code> Hook。它让我们在函数组件中存储内部 state。</li><li><strong>「第三行」:</strong> 在 <code>Example</code> 组件内部，通过调用 <code>useState</code> Hook 声明了一个新的 state 变量。它返回一对值给到我们命名的变量上。把变量命名为 <code>count</code>，因为它存储的是点击次数。我们通过传 <code>0</code> 作为 <code>useState</code> 唯一的参数来将其初始化为 <code>0</code>。第二个返回的值本身就是一个函数。它让我们可以更新 <code>count</code> 的值，所以我们命名为 <code>setCount</code>。</li><li><strong>「第七行」:</strong> 当用户点击按钮后，传递一个新的值给 <code>setCount</code>。React 会重新渲染 <code>Example</code> 组件，并把最新的 <code>count</code> 传给它。</li></ul><p>组件状态数据发生变化后会触发视图更新，视图更新意味着组件函数被重新执行，虽然组件函数重新执行了，但是状态变量并没有被释放，组件状态在每次组件函数重新执行后被保留了下来。</p><p>组件中的普通变量就不具备此功能，普通变量被更改后不会触发视图更新，而且当真正的组件状态变化后组件函数重新执行，普通变量也被重置为初始值。</p><p>问题代码：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function App() {
+  const [count, setCount] = React.useState(0);
+  let number = 0;
+  console.log(&quot;rerender&quot;, number);
+  return (
+    &lt;&gt;
+      &lt;p&gt;{count}&lt;/p&gt;
+      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;+1&lt;/button&gt;
+      &lt;button
+        onClick={() =&gt; {
+          number = number + 1;
+          console.log(&quot;onClick&quot;, number);
+        }}
+        &gt;
+        {number}
+      &lt;/button&gt;
+    &lt;/&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div><p>解答：当页面每次触发视图的更新，普通变量都会重新执行并重置为初始值。</p><p>重点：<strong>useState的初始值只有第一次有效</strong></p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>const Hook =()=&gt;{
+    console.log(&#39;Hook render...&#39;)
+    const [count, setCount] = useState(0)
+    const [name, setName] = useState(&#39;rose&#39;)
+
+    return(
+        &lt;div&gt;
+            &lt;div&gt;
+                {count}
+            &lt;/div&gt;
+            &lt;button onClick={()=&gt;setCount(count+1)}&gt;update count &lt;/button&gt;
+            &lt;button onClick={()=&gt;setName(&#39;jack&#39;)}&gt;update name &lt;/button&gt;
+            &lt;Child data={name}/&gt;
+        &lt;/div&gt;
+    )
+}
+
+const Child = memo(({data}) =&gt;{
+    console.log(&#39;child render...&#39;, data)
+    const [name, setName] = useState(data)
+    return (
+        &lt;div&gt;
+            &lt;div&gt;child&lt;/div&gt;
+            &lt;div&gt;{name} --- {data}&lt;/div&gt;
+        &lt;/div&gt;
+    );
+})
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br></div></div><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/33.png" alt="33"></p><h4 id="_4-4-useeffect" tabindex="-1"><a class="header-anchor" href="#_4-4-useeffect" aria-hidden="true">#</a> 4.4 useEffect</h4><blockquote><p>目标：</p><ol><li>副作用概述</li><li>使用概要</li><li>useEffect 做了什么</li></ol></blockquote><p><em><strong>Effect Hook</strong></em> 可以让你在函数组件中执行副作用（数据获取，设置订阅以及手动更改 React 组件中的 DOM 都属于副作用）操作。</p><p>使用示例：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>useEffect(fn, array)
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><p><strong>useEffect在初次完成渲染之后都会执行一次</strong>, 配合第二个参数可以模拟类的一些生命周期。</p><p>相当于类组件中的<code>componentDidMount</code>，<code>componentDidUpdate</code>，<code>componentWillUnmount</code> 这三个生命周期的集合体。</p><h5 id="_1-副作用概述" tabindex="-1"><a class="header-anchor" href="#_1-副作用概述" aria-hidden="true">#</a> 1. 副作用概述</h5><p>组件的职责就围绕 props 和 state 计算用户界面所需要的状态数据，其他的和渲染用户界面逻辑没有关系的操作都属于副作用。</p><p>比如 Ajax Request、手动修改 DOM、localStorage、console.log、setInterval 等。</p><p>副作用本身不是错误代码，但是如果副作用代码在组件中放置的不是最佳位置，可能导致组件的性能变差。</p><h5 id="_2-使用概要" tabindex="-1"><a class="header-anchor" href="#_2-使用概要" aria-hidden="true">#</a> 2. 使用概要</h5><ul><li><p><code>useEffect</code> 实现 <code>componentDidMount</code></p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import React, { useState, useEffect } from &quot;react&quot;;
+function Example() {
+  const [count, setCount] = useState(0);
+  useEffect(() =&gt; {
+    console.log(&quot;在组件初次挂载完成后执行&quot;);
+  }, []);
+  return (
+    &lt;div&gt;
+      &lt;p&gt;You clicked {count} times&lt;/p&gt;
+      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;Click me&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+export default Example;
+
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><p><strong>如果第二个参数为空数组，useEffect相当于类组件里面componentDidMount。</strong></p></li><li><p><code>useEffect</code> 实现 <code>componentDidUpdate</code></p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import React, { useState, useEffect } from &quot;react&quot;;
+function Example() {
+  const [count, setCount] = useState(0);
+  useEffect(() =&gt; {
+    console.log(&quot;在组件初次挂载完成后执行&quot;);
+  });
+  return (
+    &lt;div&gt;
+      &lt;p&gt;You clicked {count} times&lt;/p&gt;
+      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;Click me&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+export default Example;
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><p><strong>如果不传第二个参数，useEffect 会在初次渲染和每次更新时，都会执行。</strong></p></li><li><p><code>useEffect</code> 实现 <code>componentWillUnmount</code></p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function App() {
+  React.useEffect(() =&gt; {
+    const timer = setInterval(() =&gt; {
+      console.log(&quot;hello&quot;);
+    }, 1000);
+    // 该函数在组件卸载前被执行
+    return () =&gt; clearInterval(timer);
+  }, []);
+  return (
+    &lt;&gt;
+      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;{count}&lt;/button&gt;
+      &lt;button onClick={() =&gt;  ReactDOM.unmountComponentAtNode(document.getElementById(&quot;root&quot;))}&gt;卸载组件&lt;/button&gt;
+    &lt;/&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><p><strong>effect 返回一个函数，React 将会在执行清除操作时调用它。</strong></p></li><li><p>控制 <code>useEffect</code> 执行</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import React, { useState, useEffect } from &quot;react&quot;;
+function Example() {
+  const [count, setCount] = useState(0);
+  const [number, setNumber] = useState(1);
+  useEffect(() =&gt; {
+    console.log(&quot;只会在cout变化时执行&quot;);
+  }, [count]);
+  return (
+    &lt;div&gt;
+      &lt;p&gt;You clicked {count} times&lt;/p&gt;
+      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;Click cout&lt;/button&gt;
+      &lt;button onClick={() =&gt; setNumber(number + 1)}&gt;Click number&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+export default Example;
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><p><strong>当第二个参数中添加了依赖，那么只有依赖发生了变化后，useEffect才会执行。</strong></p></li><li><p>使用多个 <code>useEffect</code> 实现关注点分离</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import React, { useState, useEffect } from &quot;react&quot;;
+function Example() {
+  useEffect(() =&gt; {
+    // 逻辑一
+  });
+  useEffect(() =&gt; {
+    // 逻辑二
+  });
+   useEffect(() =&gt; {
+    // 逻辑三
+  });
+  return (
+    &lt;div&gt;
+      useEffect的使用
+    &lt;/div&gt;
+  );
+}
+export default Example;
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br></div></div><p><strong>Hook 允许我们按照代码的用途分离他们，</strong> 而不是像生命周期函数那样。React 将按照 effect 声明的顺序依次调用组件中的<em>每一个</em> effect。</p></li><li><p><code>useEffect</code> 中使用异步函数</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>/* 错误用法 ，effect不支持直接 async await*/
+ useEffect(async ()=&gt;{
+        /* 请求数据 */
+      const res = await getData()
+ },[])
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>useEffect是不能直接用 async await 语法糖的。useEffect<code>的回调参数返回的是一个清除副作用的</code>clean-up<code>函数。因此无法返回</code>Promise<code>，更无法使用 </code>async/await。</p><ul><li><p>解决方法一（推荐）：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>const App = () =&gt; {
+  useEffect(() =&gt; {
+    (async function getDatas() {
+      await getData();
+    })();
+  }, []);
+  return &lt;div&gt;&lt;/div&gt;;
+};
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div></li><li><p>解决方法二：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>  useEffect(() =&gt; {
+    const getDatas = async () =&gt; {
+      const data = await getData();
+      setData(data);
+    };
+    getDatas();
+  }, []);
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div></li></ul></li></ul><h5 id="_3-useeffect-做了什么" tabindex="-1"><a class="header-anchor" href="#_3-useeffect-做了什么" aria-hidden="true">#</a> 3. useEffect 做了什么</h5><p>useEffect 告诉了我们，当 React 组件需要在 <code>渲染后</code> 执行某些操作。React 会保存你传递的函数，并且在执行DOM更新之后调用。</p><h3 id="_5-组件通讯" tabindex="-1"><a class="header-anchor" href="#_5-组件通讯" aria-hidden="true">#</a> 5. 组件通讯</h3><blockquote><p>目标：</p><ol><li>父子通讯</li><li>兄弟通讯</li><li>JSX 扩展运算符</li><li>Context</li></ol></blockquote><p>组件通讯指的是，当组件A中的数据需要流向组件B中并使用，则需要将组件A中的数据传递给组件B，然后组件B再进行使用。</p><p>其传递的方式有很多种，通过 <code>props</code> 、<code>context</code>、 <code>回调函数</code> 等等。</p><h4 id="_5-1-父子通讯" tabindex="-1"><a class="header-anchor" href="#_5-1-父子通讯" aria-hidden="true">#</a> 5.1 父子通讯</h4><p>在 React 应用中，组件与组件之间传递状态数据采用的是单向数据流架构，这是构建 React 应用必须遵循的状态数据传递规范。</p><p>单向数据流指的是状态数据只能在一个方向上传递，就是从上到下，即从父组件到子组件。状态数据不能反向传递，也不能横传递。</p><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/image-20220325161701341.png" alt="image-20220325161701341"></p><p>示例：</p><p><code>父组件：</code></p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function Father() {
+    const [message, setMessage] = useState(&quot;Hello&quot;);
+    // 调用子组件并传递数据
+    return &lt;Child msg={message} /&gt;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p><code>子组件：</code></p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function Child(props) {
+    // 接收来自父组件的 msg 状态数据
+    return &lt;div&gt; {props.msg} &lt;/div&gt;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>或</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function Child({ msg }) {
+    // 接收来自父组件的 msg 状态数据
+    return &lt;div&gt; {msg} &lt;/div&gt;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>单项数据流意味着子组件无法直接更新父组件传递的状态来实现视图的更新，事实上，props传来的数据是只读的（read only）不能被修改。</p><p>若是子组件想要修改父组件传递下来的状态数据，必须要将修改数据状态的方法传递过去，从而达到子组件更新父组件数据状态并触发视图更新</p><p>示例：</p><p><code>父组件：</code></p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function Father() {
+    const [message, setMessage] = useState(&quot;Hello&quot;);
+    // 调用子组件并传递数据
+    return &lt;Child msg={message} setMsg={setMessage} /&gt;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p><code>子组件：</code></p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function Child(props) {
+    // 接收来自父组件的 msg 状态数据
+    return (
+    	&lt;&gt;
+        	&lt;div&gt; {props.msg} &lt;/div&gt;
+        	&lt;button onClick={()=&gt; props.setMsg(&quot;React&quot;)}&gt;button&lt;/button&gt;
+        &lt;/&gt;
+    )
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>或：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function Child({ msg, setMsg }) {
+    // 接收来自父组件的 msg 状态数据
+    return (
+    	&lt;&gt;
+        	&lt;div&gt; {msg} &lt;/div&gt;
+        	&lt;button onClick={()=&gt; setMsg(&quot;React&quot;)}&gt;button&lt;/button&gt;
+        &lt;/&gt;
+    )
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/image-20220325161716935.png" alt="image-20220325161716935"></p><ul><li>父组件将初始状态传递给子组件并通过子组件的props或解构的方式渲染用户界面</li><li>当用户进行交互操作时，触发父组件的修改状态</li><li>修改状态出发后更新数据状态并通过props传递到子组件</li><li>最后，视图通信渲染并同步当前状态</li></ul><h4 id="_5-2-兄弟组件" tabindex="-1"><a class="header-anchor" href="#_5-2-兄弟组件" aria-hidden="true">#</a> 5.2 兄弟组件</h4><p>如果要实现兄弟组件直接的数据状态传递需要借助一种思想：状态提升。</p><p>所谓的状态提升就是将兄弟组件直接共享状态提升到最近的公共父组件中，通过公共父组件来维护该状态，然后通过子组件props接收。</p><p>示例：</p><p><code>公共父组件：</code></p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function Father() {
+    const [person, setPerson] = React.useState({ name: &quot;张三&quot; });
+    return (
+    	&lt;&gt;
+        	&lt;ChildFirst person={person} /&gt;
+        	&lt;ChildSecond person={person} /&gt;
+        &lt;/&gt;
+    )
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p><code>兄弟组件：</code></p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function ChildFirst({person}) {
+    return &lt;div&gt; {person.name} &lt;/div&gt;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function ChildSecond({person}) {
+    return &lt;div&gt; {person.name} &lt;/div&gt;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h4 id="_5-3-jsx-扩展运算符" tabindex="-1"><a class="header-anchor" href="#_5-3-jsx-扩展运算符" aria-hidden="true">#</a> 5.3 JSX 扩展运算符</h4><p>在 JSX 中可以使用扩展运算符将对象展开，对象展开后将对象中的每个属性直接传入组件。</p><p>示例1：</p><p><code>父组件：</code></p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function App() {
+  const values = { sayHello: &quot;Hello&quot;, sayHi: &quot;hi&quot; };
+  return &lt;Message sayHello={values.sayHello} sayHi={values.sayHi} /&gt;;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>或：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function App() {
+  const values = { sayHello: &quot;Hello&quot;, sayHi: &quot;hi&quot; };
+  return &lt;Message {...values} /&gt;;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>示例2：</p><p><code>父组件：</code></p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function App() {
+  const values = { sayHello: &quot;Hello&quot;, sayHi: &quot;hi&quot; };
+  return &lt;Message {...values} /&gt;;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p><code>子组件：</code></p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function Message(props) {
+  return &lt;Button {...props} /&gt;;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p><code>孙子组件：</code></p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function Button(props) {
+  return &lt;pre&gt;{JSON.stringify(props, null, 2)}&lt;/pre&gt;;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h4 id="_5-4-context" tabindex="-1"><a class="header-anchor" href="#_5-4-context" aria-hidden="true">#</a> 5.4 Context</h4><blockquote><p>目标：</p><ol><li>prop drilling 概述</li><li>context 概述</li><li>context 使用</li></ol></blockquote><h5 id="_1-props-drilling-概述" tabindex="-1"><a class="header-anchor" href="#_1-props-drilling-概述" aria-hidden="true">#</a> 1. props drilling 概述</h5><p>在之前的组件状态提升并不适用，并且会使层级关系变得更加复杂，并且使无关的组件参与到了状态传递的过程，我们通常称这种情况为 <code>props drilling</code></p><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/image-20220325161756074.png" alt="image-20220325161756074"></p><p>示例：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// Application: 应用页面级组件
+function Application() {
+  const userName = &quot;John Smith&quot;;
+  return &lt;Layout userName={userName}&gt;Main content&lt;/Layout&gt;;
+}
+// Layout: 应用布局组件
+function Layout({ children, userName }) {
+  return (
+    &lt;div&gt;
+      &lt;Header userName={userName} /&gt;
+      &lt;main&gt;{children}&lt;/main&gt;
+    &lt;/div&gt;
+  );
+}
+// Header 头部组件
+function Header({ userName }) {
+  return (
+    &lt;header&gt;
+      &lt;UserInfo userName={userName} /&gt;
+    &lt;/header&gt;
+  );
+}
+// UserInfo: 用户信息组件
+function UserInfo({ userName }) {
+  return &lt;span&gt;{userName}&lt;/span&gt;;
+}
+// 渲染应用级页面组件 Application
+ReactDOM.render(&lt;Application /&gt;, document.getElementById(&quot;root&quot;));
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br></div></div><h5 id="_2-context-概述" tabindex="-1"><a class="header-anchor" href="#_2-context-概述" aria-hidden="true">#</a> 2. Context 概述</h5><p>为了解决以上问题，React 提供了 Context（上下文），允许组件访问全局状态并通过全局状态变化而更新视图。</p><p>无论组件嵌套有多深，都可以通过Context 传递数据</p><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/image-20220325161810871.png" alt="image-20220325161810871"></p><h5 id="_3-context-使用" tabindex="-1"><a class="header-anchor" href="#_3-context-使用" aria-hidden="true">#</a> 3. Context 使用</h5><p>使用实例：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>const value = useContext(MyContext);
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><p>接收一个 context 对象（<code>React.createContext</code> 的返回值）并返回该 context 的当前值。当组件上层最近的 <code>&lt;MyContext.Provider&gt;</code> 更新时，该 Hook 会触发重渲染，并使用最新传递给 <code>MyContext</code> provider 的 context <code>value</code> 值。即使祖先使用 <a href="https://link.juejin.cn?target=https%3A%2F%2Freact.docschina.org%2Fdocs%2Freact-api.html%23reactmemo" target="_blank" rel="noopener noreferrer"><code>React.memo</code><span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><!----></span></a> 或 <a href="https://link.juejin.cn?target=https%3A%2F%2Freact.docschina.org%2Fdocs%2Freact-component.html%23shouldcomponentupdate" target="_blank" rel="noopener noreferrer"><code>shouldComponentUpdate</code><span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><!----></span></a>，也会在组件本身使用 <code>useContext</code> 时重新渲染。</p><p>别忘记 <code>useContext</code> 的参数必须是 <em>context 对象本身</em>：</p><ul><li><strong>正确：</strong> <code>useContext(MyContext)</code></li><li><strong>错误：</strong> <code>useContext(MyContext.Consumer)</code></li><li><strong>错误：</strong> <code>useContext(MyContext.Provider)</code></li></ul><p>第一步：通过 <code>createContext </code>创建 <code>Context</code>，并提供默认值：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// 创建 Context 对象
+// createContext 方法的参数就是默认的状态值
+const Context = React.createContext(&quot;Default Value&quot;);
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>第二步：组件通过 <code>React.useContext</code> 方法获取默认状态</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function App() {
+  // 组件通过 useContext 方法获取 Context 提供的默认状态
+  const value = React.useContext(Context);
+  return &lt;div&gt;{value}&lt;/div&gt;;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>第三步：通过 <code>Context.Provider</code> 组件提供全局状态，实现组件访问。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// 创建 Context 对象存储默认状态值
+const Context = React.createContext(&quot;Default Value&quot;);
+
+function App() {
+  const value = &quot;My Context Value&quot;;
+  // 通过 Context.Provider 组件提供状态, 该状态值会覆盖默认状态值
+  return (
+    &lt;Context.Provider value={value}&gt;
+      &lt;MyComponent /&gt;
+    &lt;/Context.Provider&gt;
+  );
+}
+
+function MyComponent() {
+  // 下层组件获取 Context 全局状态值
+  const value = React.useContext(Context);
+  return &lt;div&gt;{value}&lt;/div&gt;;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br></div></div><h3 id="_6-表单控制" tabindex="-1"><a class="header-anchor" href="#_6-表单控制" aria-hidden="true">#</a> 6. 表单控制</h3><blockquote><p>目标：</p><ol><li>受控表单组件</li><li>非受控表单组件</li></ol></blockquote><h4 id="_6-1-受控表单组件" tabindex="-1"><a class="header-anchor" href="#_6-1-受控表单组件" aria-hidden="true">#</a> 6.1 受控表单组件</h4><blockquote><p>目标：</p><ol start="0"><li><p>受控表单三步骤</p></li><li><p>text</p></li><li><p>password</p></li><li><p>textarea</p></li><li><p>select</p></li><li><p>radio</p></li><li><p>checkbox</p></li><li><p>submit</p></li><li><p>reset</p></li></ol></blockquote><p>在 React 组件中使用表单元素时，为了获取表单控件的值，常常会将表单控件和组件状态进行绑定，通过该方式使用表单的组件叫做受控表单组件。</p><h5 id="_0-受控表单三步骤" tabindex="-1"><a class="header-anchor" href="#_0-受控表单三步骤" aria-hidden="true">#</a> 0. 受控表单三步骤：</h5><ol><li><p>定义保存 input 值的状态</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>const [value, setValue] = useState(&quot;&quot;);
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div></li><li><p>创建事务处理程序，该事件处理程序在值更改时更新状态</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>const handleChange = (event) =&gt; setValue(event.target.value);
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div></li><li><p>为 input 分配字段状态值并添加事件处理程序</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>&lt;input type=&quot;text&quot; value={value} onChange={handleChange} /&gt;
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div></li></ol><h5 id="_1-text-文本框" tabindex="-1"><a class="header-anchor" href="#_1-text-文本框" aria-hidden="true">#</a> 1. Text 文本框</h5><p>示例代码：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function App() {
+  const [username, setUsername] = React.useState(&quot;&quot;);
+  const handleChange = (event) ={
+      setUsername(event.target.value)
+  }
+  return (
+    &lt;input
+      type=&quot;text&quot;
+      value={username}
+      onChange={handleChange}
+    /&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><h5 id="_2-password-密码框" tabindex="-1"><a class="header-anchor" href="#_2-password-密码框" aria-hidden="true">#</a> 2. Password 密码框</h5><p><code>原始写法实例：</code></p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function App() {
+    const [formState, setFormState] = useState({
+        usename: &quot;&quot;,
+        password: &quot;&quot;,
+    })
+    const handleChangeUsername = (event) =&gt; {
+        setFormState({
+            ...formState,
+            username: event.target.value
+        })
+    }
+    const handleChangePasswrod = (event) =&gt; {
+        setFormState({
+            ...formState,
+            password: event.target.value
+        })
+    }
+    
+    return (
+    	&lt;&gt;
+        	&lt;input 
+                type=&quot;text&quot; 
+                value={formState.username}
+                onChange={handleChangeUsername}
+               /&gt;
+        	&lt;input 
+                type=&quot;password&quot; 
+                value={formState.password}
+                onChange={handleChangePasswrod}
+               /&gt;
+        &lt;/&gt;
+    )
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br></div></div><p>以上这种方法过于麻烦，且代码<strong>冗余</strong>，因为 event 事件对象我们可以获取到元素的 DOM 对象，可以通过表单组件上的name属性进行进一步的简化过程：</p><p><code>简化代码：</code></p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function App() {
+    const [formState, setFormState] = useState({
+        usename: &quot;&quot;,
+        password: &quot;&quot;,
+    })
+    const handleChangeFormState = (event) =&gt; {
+        setFormState({
+            ...formState,
+            [event.target.name]: event.target.value
+        })
+    }
+    
+    return (
+    	&lt;&gt;
+        	&lt;input 
+                type=&quot;text&quot; 
+                name=&quot;username&quot;
+                value={formState.username}
+                onChange={handleChangeFormState}
+               /&gt;
+        	&lt;input 
+                type=&quot;password&quot; 
+                name=&quot;password&quot;
+                value={formState.password}
+                onChange={handleChangeFormState}
+               /&gt;
+        &lt;/&gt;
+    )
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br></div></div><h5 id="_3-textarea-文本域" tabindex="-1"><a class="header-anchor" href="#_3-textarea-文本域" aria-hidden="true">#</a> 3. Textarea 文本域</h5><p>示例代码：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function App() {
+  const [formState, setFormState] = React.useState({
+    textarea: &quot;&quot;,
+  });
+  const handleChangeFormState = (event) =&gt; {
+    setFormState({
+      ...formState,
+      [event.target.name]: event.target.value,
+    });
+  };
+  return &lt;textarea name=&quot;textarea&quot; value={formState.textarea} onChange={onChangeHandler}&gt;&lt;/textarea&gt;;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><h5 id="_4-select-下拉框" tabindex="-1"><a class="header-anchor" href="#_4-select-下拉框" aria-hidden="true">#</a> 4. Select 下拉框</h5><p>示例代码：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function App() {
+  const [formState, setFormState] = React.useState({
+    select: &quot;&quot;,
+  });
+  const handleChangeFormState = (event) =&gt; {
+    setFormState({
+      ...formState,
+      [event.target.name]: event.target.value,
+    });
+  };
+  return (
+    &lt;select
+      name=&quot;select&quot;
+      value={formState.select}
+      onChange={handleChangeFormState}
+      &gt;
+      {/* 默认值 */}
+      &lt;option value=&quot;&quot;&gt;请选择交通方式&lt;/option&gt;
+      &lt;option value=&quot;0&quot;&gt;火车&lt;/option&gt;
+      &lt;option value=&quot;1&quot;&gt;飞机&lt;/option&gt;
+    &lt;/select&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br></div></div><h5 id="_5-radio-单选框" tabindex="-1"><a class="header-anchor" href="#_5-radio-单选框" aria-hidden="true">#</a> 5. Radio 单选框</h5><p>示例代码：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function App() {
+  const [formState, setFormState] = React.useState({
+    radio: &quot;&quot;,
+  });
+  const handleChangeFormState = (event) =&gt; {
+    setFormState({
+      ...formState,
+      [event.target.name]: event.target.value,
+    });
+  };
+  return (
+    &lt;&gt;
+    	&lt;input type=&quot;radio&quot; name=&quot;radio&quot; value=&quot;m&quot;  onChange={handleChangeFormState} /&gt;
+    	&lt;span&gt;M&lt;/span&gt;
+    	&lt;input type=&quot;radio&quot; name=&quot;radio&quot; value=&quot;s&quot; onChange={handleChangeFormState} /&gt;
+    	&lt;span&gt;S&lt;/span&gt;
+		&lt;/&gt;
+	);
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br></div></div><h5 id="_6-checkbox-多选框" tabindex="-1"><a class="header-anchor" href="#_6-checkbox-多选框" aria-hidden="true">#</a> 6. Checkbox 多选框</h5><blockquote><p>目标：</p><ol><li>单独使用</li><li>多个使用</li></ol></blockquote><ul><li><p>checkbox 单独使用，比如是否同意协议、是否记住密码、是否保持登录状态等等，在这种情况下 checkbox 绑定布尔值。</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function App() {
+  const [formState, setFormState] = React.useState({
+    checkbox: false,
+  });
+  const handleChangeFormState = (event) =&gt; {
+    // 如果表单控件是复选框, 获取 checked 属性的值作为 value
+    const value =
+          event.target.type === &quot;checkbox&quot;
+    ? event.target.checked
+    : event.target.value;
+      
+    setFormState({
+      ...formState,
+      [event.target.name]: value,
+    });
+  };
+  return (
+    &lt;input
+      type=&quot;checkbox&quot;
+      name=&quot;checkbox&quot;
+      checked={formState.checkbox}
+      onChange={handleChangeFormState}
+      /&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br></div></div></li><li><p>多个复选框一起使用，表示用户选择了多个属性符合</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// 模拟数据 爱好数组
+const data = [
+  { id: 1, title: &quot;足球&quot; },
+  { id: 2, title: &quot;篮球&quot; },
+  { id: 3, title: &quot;橄榄球&quot; },
+];
+function App() {
+  // 声明表单状态
+  const [formState, setFormState] = React.useState({
+    hobbies: [],
+  });
+  // 爱好数组映射, 爱好数组中有多少爱好, 该状态数组中就有多少布尔值与之对应, 表示对应的爱好当前的选中状态是什么
+  const [checkedState, setCheckedState] = React.useState(
+    new Array(data.length).fill(false)
+  );
+  // 用于选择爱好后执行的事件处理函数
+  const hobbyChangeHandler = (index) =&gt; {
+    // index 为用户更改的爱好在原数组中的索引
+    // 根据 index 找到爱好对应的布尔值, 取反, 返回新的爱好数组对应的是否选中的状态布尔值数组
+    const updatedCheckedState = checkedState.map((checked, i) =&gt;  i === index ? !checked : checked);
+    // 更新爱好状态布尔值数组, 供下次用户选择时使用
+    setCheckedState(updatedCheckedState);
+    // 根据爱好布尔值状态数组, 从原数组中找到用户选中的爱好 id
+    const udpatedHobbies = updatedCheckedState.reduce(
+      (result, checked, index) =&gt; {
+        if (checked) result.push(data[index].id);
+        return result;
+      },
+      []
+    );
+    // 更新表单状态
+    setFormState({ ...formState, hobbies: udpatedHobbies });
+  };
+  return (
+    &lt;&gt;
+      {data.map((item, index) =&gt; (
+        &lt;p key={item.id}&gt;
+          &lt;input
+            type=&quot;checkbox&quot;
+            onChange={() =&gt; hobbyChangeHandler(index)}
+            /&gt;
+          {item.title}
+        &lt;/p&gt;
+    	))}
+  	&lt;/&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br></div></div></li></ul><h5 id="_7-submit-表单提交" tabindex="-1"><a class="header-anchor" href="#_7-submit-表单提交" aria-hidden="true">#</a> 7. Submit 表单提交</h5><p>示例代码：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function App() {
+  const [formState, setFormState] = React.useState({
+    username: &quot;&quot;,
+  });
+  const handleChangeFormState = (event) =&gt; {
+    setFormState({
+      ...formState,
+      [event.target.name]: event.target.value,
+    });
+  };
+  const handleSubmit = (event) =&gt; {
+    event.preventDefault();
+    console.log(formState);
+  };
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;input
+        type=&quot;text&quot;
+        name=&quot;username&quot;
+        value={formState.username}
+        onChange={handleChangeFormState}
+        /&gt;
+      &lt;input type=&quot;submit&quot; /&gt;
+    &lt;/form&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br></div></div><h5 id="_8-reset-重置表单" tabindex="-1"><a class="header-anchor" href="#_8-reset-重置表单" aria-hidden="true">#</a> 8. Reset 重置表单</h5><p>示例代码：</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>const initialState = {
+  username: &quot;&quot;,
+};
+function App() {
+  const [formState, setFormState] = React.useState(initialState);
+  const handleChangeFormState = (event) =&gt; {
+    setFormState({
+      ...formState,
+      [event.target.name]: event.target.value,
+    });
+  };
+  const onResetHandler = (event) =&gt; {
+    setFormState(initialState);
+  };
+  return (
+    &lt;form&gt;
+      &lt;input
+        type=&quot;text&quot;
+        name=&quot;username&quot;
+        value={formState.username}
+        onChange={handleChangeFormState}
+        /&gt;
+      &lt;button type=&quot;button&quot; onClick={onResetHandler}&gt;
+        重置
+      &lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br></div></div><h4 id="_2-6-2-非受控表单组件" tabindex="-1"><a class="header-anchor" href="#_2-6-2-非受控表单组件" aria-hidden="true">#</a> 2.6.2 非受控表单组件</h4><blockquote><ol><li>useRef</li><li>forwardRef</li><li>非受控表单组件</li></ol></blockquote><h5 id="_1-useref" tabindex="-1"><a class="header-anchor" href="#_1-useref" aria-hidden="true">#</a> 1. useRef</h5><p>使用 useRef 可以获取元素的 DOM 对象</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import { useRef } from &#39;react&#39;;
+
+function App () {
+  const username = useRef();
+  const handler = () =&gt; console.log(username); // {current: input}
+  return &lt;input ref={username} onChange={handler}/&gt;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><h5 id="_2-forwardref" tabindex="-1"><a class="header-anchor" href="#_2-forwardref" aria-hidden="true">#</a> 2. forwardRef</h5><p>通过 forwardRef 可以实现获取子元素的 DOM 对象</p><p><code>父元素：</code></p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import { useEffect, useRef } from &quot;react&quot;;
+import Message from &quot;./Message&quot;;
+
+function App() {
+  const messageRef = useRef();
+  useEffect(() =&gt; {
+    console.log(messageRef.current);
+  }, []);
+  return &lt;Message ref={messageRef} /&gt;;
+}
+
+export default App;
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p><code>子元素：</code></p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import { forwardRef } from &quot;react&quot;;
+
+function Message(props, ref) {
+  return &lt;span ref={ref}&gt;I am span&lt;/span&gt;;
+}
+export default forwardRef(Message);
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h5 id="_3-非受控表单组件" tabindex="-1"><a class="header-anchor" href="#_3-非受控表单组件" aria-hidden="true">#</a> 3. 非受控表单组件</h5><p>在 React 中受控表单组件使用起来很方便但也相对复杂，如果表单本身比较简单也可以使用非受控表单组件，非受控表单组件就是表单控件不和组件状态进行绑定，就使用原生的表单 DOM 对象存储用户输入的值。</p><p>示例代码:</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function App() {
+  const usernameRef = React.useRef();
+  const onSubmitHandler = (event) =&gt; {
+    event.preventDefault();
+    console.log(usernameRef.current.value);
+  };
+  return (
+    &lt;form onSubmit={onSubmitHandler}&gt;
+      &lt;input type=&quot;text&quot; ref={usernameRef} /&gt;
+      &lt;input type=&quot;submit&quot; /&gt;
+    &lt;/form&gt;
+  );
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><h3 id="_7-样式控制" tabindex="-1"><a class="header-anchor" href="#_7-样式控制" aria-hidden="true">#</a> 7. 样式控制</h3><blockquote><p>目标：</p><ol><li>CSS stylesheets</li><li>Inline styling</li><li>CSS Modules</li><li>classnames</li></ol></blockquote><p>React 提供了很多种方式让开发者通过 JS 操作进行CSS的操作。</p><h4 id="_7-1-css-stylesheets" tabindex="-1"><a class="header-anchor" href="#_7-1-css-stylesheets" aria-hidden="true">#</a> 7.1 CSS stylesheets</h4><p>在 JS 文件中通过 import 关键字导入 CSS 样式表，改样式表的作用范围是 全局</p><p><code>src/styles.css:</code></p><div class="language-css ext-css line-numbers-mode"><pre class="language-css"><code><span class="token selector">.button</span> <span class="token punctuation">{</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> #fff<span class="token punctuation">;</span>
+  <span class="token property">background-color</span><span class="token punctuation">:</span> #5cb85c<span class="token punctuation">;</span>
+  <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+  <span class="token property">cursor</span><span class="token punctuation">:</span> pointer<span class="token punctuation">;</span>
+  <span class="token property">padding</span><span class="token punctuation">:</span> 6px 12px<span class="token punctuation">;</span>
+  <span class="token property">font-size</span><span class="token punctuation">:</span> 14px<span class="token punctuation">;</span>
+  <span class="token property">line-height</span><span class="token punctuation">:</span> 1.42857143<span class="token punctuation">;</span>
+  <span class="token property">border-radius</span><span class="token punctuation">:</span> 4px<span class="token punctuation">;</span>
+  <span class="token property">border</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p><code>src/index:</code></p><div class="language-javascript ext-js line-numbers-mode"><pre class="language-javascript"><code><span class="token keyword">import</span> <span class="token string">&quot;./styles.css&quot;</span><span class="token punctuation">;</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><p><code>src/App.jsx</code></p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>function App() {
+  return &lt;button class=&quot;button&quot;&gt;button&lt;/button&gt;;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h4 id="_7-2-inline-styling" tabindex="-1"><a class="header-anchor" href="#_7-2-inline-styling" aria-hidden="true">#</a> 7.2 Inline styling</h4><p>通过 style 属性为元素添加行内式样式，同时可以进行JS逻辑的编写</p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import { useState } from &quot;react&quot;;
+
+function App() {
+  const [state, setState] = useState({
+    colors: [&quot;palevioletred&quot;, &quot;yellow&quot;, &quot;papayawhip&quot;],
+    index: 0,
+  });
+  const styles = {
+    width: 200,
+    padding: &quot;50px 0&quot;,
+    background: state.colors[state.index],
+    textAlign: &quot;center&quot;,
+  };
+  const onClickHandler = () =&gt; {
+    setState({
+      ...state,
+      index: state.index + 1 &gt; state.colors.length - 1 ? 0 : state.index + 1,
+    });
+  };
+  return (
+    &lt;div style={styles} onClick={onClickHandler}&gt;
+      Hello React
+    &lt;/div&gt;
+  );
+}
+
+export default App;
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br></div></div><h4 id="_7-3-css-module" tabindex="-1"><a class="header-anchor" href="#_7-3-css-module" aria-hidden="true">#</a> 7.3 CSS Module</h4><p>通过 CSS 模块可以实现组件级样式，样式文件名称规范：<code>[name].module.css</code></p><div class="language-css ext-css line-numbers-mode"><pre class="language-css"><code><span class="token selector">.button</span> <span class="token punctuation">{</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> #fff<span class="token punctuation">;</span>
+  <span class="token property">background-color</span><span class="token punctuation">:</span> #5cb85c<span class="token punctuation">;</span>
+  <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+  <span class="token property">cursor</span><span class="token punctuation">:</span> pointer<span class="token punctuation">;</span>
+  <span class="token property">padding</span><span class="token punctuation">:</span> 6px 12px<span class="token punctuation">;</span>
+  <span class="token property">font-size</span><span class="token punctuation">:</span> 14px<span class="token punctuation">;</span>
+  <span class="token property">line-height</span><span class="token punctuation">:</span> 1.42857143<span class="token punctuation">;</span>
+  <span class="token property">border-radius</span><span class="token punctuation">:</span> 4px<span class="token punctuation">;</span>
+  <span class="token property">border</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p><code>src/App.jsx:</code></p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>// App.js
+import styles from &quot;./App.module.css&quot;;
+
+function App() {
+  return &lt;button className={styles.button}&gt;button&lt;/button&gt;;
+}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h4 id="_7-4-classnames" tabindex="-1"><a class="header-anchor" href="#_7-4-classnames" aria-hidden="true">#</a> 7.4 classnames</h4><p>通过第三方的插件 <code>classnames</code> 实现属性值的动态绑定</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">npm</span> <span class="token function">install</span> classnames
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><h3 id="_8-传送门组件" tabindex="-1"><a class="header-anchor" href="#_8-传送门组件" aria-hidden="true">#</a> 8. 传送门组件</h3><blockquote><p>目标：</p><ol><li>已知问题</li><li>组件应用</li></ol></blockquote><p>React Portal 之所以叫 Portal，因为其功能就是和 “传送门” 原理一样：<strong>render 到一个组件里面，实际上改变的是网页上另一处的 DOM 结构</strong>。</p><p>其作用就是，当某个组件需要一个弹出框且弹出框不受任何组件的影响，其中的原因就是：如果放置到组件内部会收到组件的 CSS 样式影响如：position、transition等属性。</p><h4 id="_8-1-已知问题" tabindex="-1"><a class="header-anchor" href="#_8-1-已知问题" aria-hidden="true">#</a> 8.1 已知问题</h4><p>需求: 在 App 组件中点击按钮渲染弹框组件。</p><p>问题: 弹框组件被渲染到 App 组件内部，弹框组件的样式受到了 App 组件元素的影响，导致布局错乱。</p><p><code>期望结果：</code></p><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/28.png" alt="28"></p><p><code>实际结果：</code></p><p><img src="https://raw.githubusercontent.com/Sue-52/PicGo/main/images/29.png" alt="29"></p><p><code>src/App.js：</code></p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import { useState } from &quot;react&quot;;
+import Modal from &quot;./Modal&quot;;
+
+function App() {
+  const [isOpen, setIsOpen] = useState(false);
+  const appStyles = { width: &quot;60%&quot;, height: 400, transform: &quot;translate(0,0)&quot; };
+  return (
+    &lt;div style={appStyles}&gt;
+      &lt;button onClick={() =&gt; setIsOpen(!isOpen)}&gt;open modal&lt;/button&gt;
+      {isOpen ? &lt;Modal /&gt; : null}
+    &lt;/div&gt;
+  );
+}
+
+export default App;
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><p><code>src/Modal.js：</code></p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import styles from &quot;./Modal.module.css&quot;;
+
+function Modal() {
+  return (
+    &lt;div className={styles.overlayer}&gt;
+      &lt;div className={styles.content}&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+export default Modal;
+
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p><code> src/Modal.module.css：</code></p><div class="language-css ext-css line-numbers-mode"><pre class="language-css"><code><span class="token selector">.overlayer</span> <span class="token punctuation">{</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> fixed<span class="token punctuation">;</span>
+  <span class="token property">left</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+  <span class="token property">top</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> <span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span> 0<span class="token punctuation">,</span> 0<span class="token punctuation">,</span> 0.5<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token selector">.content</span> <span class="token punctuation">{</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 450px<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> 300px<span class="token punctuation">;</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> #fff<span class="token punctuation">;</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+  <span class="token property">left</span><span class="token punctuation">:</span> 50%<span class="token punctuation">;</span>
+  <span class="token property">top</span><span class="token punctuation">:</span> 50%<span class="token punctuation">;</span>
+  <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translate</span><span class="token punctuation">(</span>-50%<span class="token punctuation">,</span> -50%<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><h4 id="_8-2-组件应用" tabindex="-1"><a class="header-anchor" href="#_8-2-组件应用" aria-hidden="true">#</a> 8.2 组件应用</h4><p>通过 React 提供的方法，createPortal 将弹出框渲染到指定DOM元素位置。</p><p><code>public/index.html：</code></p><div class="language-html ext-html line-numbers-mode"><pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>portal-root<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><p><code>src/Modal.jsx：</code></p><div class="language-react ext-react line-numbers-mode"><pre class="language-react"><code>import styles from &quot;./Modal.module.css&quot;;
+import ReactDOM from &quot;react-dom&quot;;
+
+function Modal() {
+  return ReactDOM.createPortal(
+    &lt;div className={styles.overlayer}&gt;
+      &lt;div className={styles.content}&gt;&lt;/div&gt;
+    &lt;/div&gt;,
+    document.getElementById(&quot;portal-root&quot;)
+  );
+}
+export default Modal;
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><!--]--></div><footer class="page-meta"><div class="meta-item edit-link"><a class="nav-link meta-item-label" href="https://github.com/vuepress-reco/vuepress-theme-reco-next/edit/main//docs/02.Front-endFrameKnowledge/02.React/03.React%20Development%20Basic.md" rel="noopener noreferrer" target="_blank" aria-label="Edit this page"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->Edit this page<!--]--></span></a><span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><!----></span><!--[--><!--]--></a></div><div class="meta-item last-updated"><span class="meta-item-label">Last Updated: </span><span class="meta-item-info">2022-04-06 12:30:29</span></div></footer><nav class="page-nav"><p class="inner"><span class="prev"> ← <a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/02.React Component.html" class="nav-link" aria-label="React Component -- 组件基础知识"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React Component -- 组件基础知识<!--]--></span></a><!--[--><!--]--></a></span><span class="next"><a href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/04.React Development Advanced.html" class="nav-link" aria-label="React Development Advanced -- 组件开发进阶"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React Development Advanced -- 组件开发进阶<!--]--></span></a><!--[--><!--]--></a> → </span></p></nav><div class="reco-valine-wrapper" style="display:none;"><div id="valine"></div></div></main><!--]--><div class="page-header-container"><h5 class="tip">ON THIS PAGE</h5><ul><!--[--><!--[--><li class="page-header-menu-depth_2"><a aria-current="page" href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/03.React Development Basic.html#react-development-basic-组件开发基础" class="router-link-active router-link-exact-active nav-link page-header-item" aria-label="React Development Basic -- 组件开发基础"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->React Development Basic -- 组件开发基础<!--]--></span></a><!--[--><!--]--></a></li><!--[--><li class="page-header-menu-depth_3"><a aria-current="page" href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/03.React Development Basic.html#_1-组件概述" class="router-link-active router-link-exact-active nav-link page-header-item" aria-label="1. 组件概述"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->1. 组件概述<!--]--></span></a><!--[--><!--]--></a></li><!--]--><!--[--><li class="page-header-menu-depth_3"><a aria-current="page" href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/03.React Development Basic.html#_2-复用组件" class="router-link-active router-link-exact-active nav-link page-header-item" aria-label="2. 复用组件"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->2. 复用组件<!--]--></span></a><!--[--><!--]--></a></li><!--]--><!--[--><li class="page-header-menu-depth_3"><a aria-current="page" href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/03.React Development Basic.html#_3-组件模板" class="router-link-active router-link-exact-active nav-link page-header-item" aria-label="3. 组件模板"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->3. 组件模板<!--]--></span></a><!--[--><!--]--></a></li><!--]--><!--[--><li class="page-header-menu-depth_3"><a aria-current="page" href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/03.React Development Basic.html#_4-组件状态" class="router-link-active router-link-exact-active nav-link page-header-item" aria-label="4. 组件状态"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->4. 组件状态<!--]--></span></a><!--[--><!--]--></a></li><!--]--><!--[--><li class="page-header-menu-depth_3"><a aria-current="page" href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/03.React Development Basic.html#_5-组件通讯" class="router-link-active router-link-exact-active nav-link page-header-item" aria-label="5. 组件通讯"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->5. 组件通讯<!--]--></span></a><!--[--><!--]--></a></li><!--]--><!--[--><li class="page-header-menu-depth_3"><a aria-current="page" href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/03.React Development Basic.html#_6-表单控制" class="router-link-active router-link-exact-active nav-link page-header-item" aria-label="6. 表单控制"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->6. 表单控制<!--]--></span></a><!--[--><!--]--></a></li><!--]--><!--[--><li class="page-header-menu-depth_3"><a aria-current="page" href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/03.React Development Basic.html#_7-样式控制" class="router-link-active router-link-exact-active nav-link page-header-item" aria-label="7. 样式控制"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->7. 样式控制<!--]--></span></a><!--[--><!--]--></a></li><!--]--><!--[--><li class="page-header-menu-depth_3"><a aria-current="page" href="/Blog-StudyNotes/docs/02.Front-endFrameKnowledge/02.React/03.React Development Basic.html#_8-传送门组件" class="router-link-active router-link-exact-active nav-link page-header-item" aria-label="8. 传送门组件"><!--[--><!--]--><a class="icon-container left" href="javascript:void(0)"><!----><span style="color:inherit;font-size:14px;"><!--[-->8. 传送门组件<!--]--></span></a><!--[--><!--]--></a></li><!--]--><!--]--><!--]--></ul></div></div></div><!----><!----><!--]--></div>
+    <script src="/Blog-StudyNotes/assets/js/runtime~app.a27b0316.js" defer></script><script src="/Blog-StudyNotes/assets/js/3769.75743e32.js" defer></script><script src="/Blog-StudyNotes/assets/js/app.fbc5ca59.js" defer></script>
+  </body>
+</html>
